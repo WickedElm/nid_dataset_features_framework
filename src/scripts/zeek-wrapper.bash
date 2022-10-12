@@ -9,6 +9,10 @@
 ZEEK_PACKAGES=$1
 shift
 
+WORKING_DIR=$1
+shift
+cd ${WORKING_DIR}
+
 # Print out version of zeek being run
 zeek --version
 

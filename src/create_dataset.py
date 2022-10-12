@@ -61,8 +61,9 @@ if not os.path.exists(setup_options['working_directory']):
     os.makedirs(setup_options['working_directory'], exist_ok=True)
 
 # Acquire Source Data
-for command in step_acquire_source_data:
-    perform_command(command)
+if step_acquire_source_data is not None:
+    for command in step_acquire_source_data:
+        perform_command(command)
 
 # Feature Processing
 if step_feature_processing['packet_level'] is not None:
