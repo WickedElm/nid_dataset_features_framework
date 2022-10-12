@@ -28,5 +28,7 @@ event new_packet (c: connection, p: pkt_hdr) {
 
 event connection_state_remove(c: connection) &priority=-10 
 {
-    Features::connection_data[c$uid]$label = 1;
+    # We just default to all benign and update
+    # the attacks using ground truth in a later step
+    Features::connection_data[c$uid]$label = 0;
 }
