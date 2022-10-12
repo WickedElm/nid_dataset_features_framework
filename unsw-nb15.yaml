@@ -1,0 +1,22 @@
+setup_options:
+  working_directory: ENV_PWD/unsw_nb15_dataset
+
+step_acquire_source_data:
+  - python src/step_acquire_source_data/downloader.py ${setup_options.working_directory}
+
+step_feature_processing:
+  packet_level:
+
+  flow_level:
+    - ./src/zeek/scripts/zeek-wrapper.bash ./src/zeek/packages mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
+
+  network_level:
+
+step_label_processing:
+  packet_level:
+  flow_level:
+    - python ./src/zeek/packages/mlfeatures/label/flow_level/label.py ${setup_options.working_directory}
+  network_level:
+
+step_post_processing:
+
