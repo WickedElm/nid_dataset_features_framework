@@ -8,7 +8,7 @@ step_feature_processing:
   packet_level:
 
   flow_level:
-    - ./src/zeek/scripts/zeek-wrapper.bash ./src/zeek/packages mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
+    - ./src/scripts/zeek-wrapper.bash ./src/zeek/packages mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
 
   network_level:
 
