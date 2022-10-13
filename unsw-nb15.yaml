@@ -15,12 +15,14 @@ step_feature_processing:
     - ./src/zeek/zeek-wrapper.bash ${setup_options.current_directory}/src/zeek/packages ${setup_options.working_directory} mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
 
   network_level:
+    - ./src/python/python-wrapper.bash ${setup_options.working_directory} ${setup_options.current_directory}/src/step_feature_processing/network_level ${setup_options.working_directory}/features.log
 
 step_label_processing:
   packet_level:
+
   flow_level:
-    - python ./src/zeek/packages/mlfeatures/label/flow_level/label.py ${setup_options.working_directory}
+    - python ./src/step_label_processing/flow_level/label.py ${setup_options.working_directory}
+
   network_level:
 
 step_post_processing:
-
