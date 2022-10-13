@@ -7,6 +7,9 @@ step_acquire_source_data:
 
 step_feature_processing:
   packet_level:
+    - rm -f ${setup_options.working_directory}/17-2-2015_1.argus
+    - argus -S 60 -m -r ${setup_options.working_directory}/17-2-2015_1.pcap -w ${setup_options.working_directory}/17-2-2015_1.argus
+    - ./src/argus/ra_wrapper.bash ${setup_options.working_directory} 17-2-2015_1.argus argus_features.tsv ./src/step_feature_processing/packet_level/__load__.argus
 
   flow_level:
     - ./src/zeek/zeek-wrapper.bash ${setup_options.current_directory}/src/zeek/packages ${setup_options.working_directory} mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap

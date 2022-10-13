@@ -1,0 +1,15 @@
+###
+# Specify argus fields to use.
+###
+
+sloss
+dloss
+smeansz
+dmeansz
+tcprtt
+synack
+ackdat
+Sjit
+Djit
+Sintpkt
+Dintpkt
