@@ -3,6 +3,8 @@ documentation:
   zeek_version: 4.2.1
   argus_version: 3.0.8.2
   ra_client_version: 3.0.8 
+  expected_outputs: 
+    - unsw_nb15_dataset.csv
 
 setup_options:
   current_directory: ENV_PWD
