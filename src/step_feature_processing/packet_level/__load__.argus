@@ -2,6 +2,12 @@
 # Specify argus fields to use.
 ###
 
+stime
+proto
+saddr
+sport
+daddr
+dport
 sloss
 dloss
 smeansz

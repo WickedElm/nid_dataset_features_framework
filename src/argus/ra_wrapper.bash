@@ -11,7 +11,7 @@ OUTPUT_FILENAME=$3
 FEATURES_FILE=$4
 
 # Parse our features file for use as an input argument
-FEATURES=$(cat ${FEATURES_FILE}  | grep -v "#" | grep -v '^[[:space:]]*$' | awk '{print "+"$1}' | tr '\n' ' ')
+FEATURES=$(cat ${FEATURES_FILE}  | grep -v "#" | grep -v '^[[:space:]]*$' | awk '{print $1}' | tr '\n' ' ')
 
 if [ ${#FEATURES} -gt 0 ];
 then
@@ -19,9 +19,9 @@ then
 fi
 
 # Run zeek with all remaining arguments
-CMD="ra -r ${WORKING_DIR}/${ARGUS_FILENAME} ${FEATURES} > ${WORKING_DIR}/${OUTPUT_FILENAME}"
+CMD="ra -c , -n -u -r ${WORKING_DIR}/${ARGUS_FILENAME} ${FEATURES} > ${WORKING_DIR}/${OUTPUT_FILENAME}"
 
 echo ""
 echo "Executing [${CMD}]"
 
-ra -r ${WORKING_DIR}/${ARGUS_FILENAME} ${FEATURES} > ${WORKING_DIR}/${OUTPUT_FILENAME}
+ra -c , -n -u -r ${WORKING_DIR}/${ARGUS_FILENAME} ${FEATURES} > ${WORKING_DIR}/${OUTPUT_FILENAME}

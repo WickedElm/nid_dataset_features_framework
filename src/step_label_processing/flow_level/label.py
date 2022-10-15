@@ -12,7 +12,7 @@ working_directory = sys.argv[1]
 # Read in ground truth data
 ###
 
-ground_truth_df = pd.read_csv('./src/zeek/packages/mlfeatures/label/NUSW-NB15_GT.csv')
+ground_truth_df = pd.read_csv('./src/step_label_processing/NUSW-NB15_GT.csv')
 
 ###
 # Read in actual data
