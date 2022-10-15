@@ -1,6 +1,11 @@
 import requests
 import sys
 
+###
+# A simple script to serve as an example of providing end users
+# with a resource to make obtaining source files easy.
+###
+
 destination_directory = sys.argv[1]
 
 pcap_dir = '17-2-2015'
