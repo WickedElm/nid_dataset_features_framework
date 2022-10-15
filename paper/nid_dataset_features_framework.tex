@@ -1,17 +1,18 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\usepackage{cite}
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.  \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{array}
+\usepackage{listings}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{A Framework to Improve the Delivery of Network Intrusion Detection Datasets}
+\title{Guidelines to Improve the Delivery of Network Intrusion Detection Datasets}
 
 \author{\IEEEauthorblockN{Brian Lewandowski}
 \IEEEauthorblockA{\textit{Computer Science} \\
@@ -35,7 +36,7 @@ rcpaffenroth@wpi.edu}
     In addition, it is often difficult to generate new features using a dataset due to the lack of packet capture files or inadequate ground truth labeling information for a given dataset.
     In this work, we look at network intrusion dataset development with a focus on improving the delivery of datasets from a dataset researcher to a researcher acquiring the dataset for the research of anomaly detection and classification techniques.
     Specifically, we focus on making existing features more understandable, providing clear labeling criteria, and allowing a clear path for researchers to generate new features.
-    In this work we outline a framework for achieving these improvements along with providing a publicly available reference implementation.
+    In this work we outline a set of guidelines for achieving these improvements along with providing a publicly available sample implementation that meets the guidelines using an existing network intrusion detection dataset.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -48,19 +49,19 @@ Network intrusion detection is a methodology to protect computer networks by ana
 In general, there exist two main strategies to perform network intrusion detection:  signature/behavior-based or anomaly-based \cite{yang2022systematic}.
 With signature-based detection, the network intrusion detection system (NIDS) attempts to identify malicious network traffic based on known attack patterns.
 Anomaly-based NIDS, however, excel at identifying malicious network behavior by detecting when network traffic strays beyond a baseline level of benign activity.
-This makes it more useful for detection of zero-day attacks.
+This makes it more useful for the detection of zero-day attacks.
 In both cases, researchers have begun to leverage machine and deep learning techniques in order to effectively combat the increasingly complex and evolving attacks taking place on networks today \cite{yang2022systematic}.
 
 In order to properly research and verify the applicability of these data intensive techniques to NIDS, one must utilize datasets consisting of network scenarios that involve both benign and malicious activity.
-To support these efforts a growing number of datasets have been developed such as those surveyed in \cite{ring2019survey}, \cite{Chou2022} and \cite{yang2022systematic}.
+To support these efforts a growing number of datasets have been developed such as those surveyed in \cite{Chou2022}, \cite{yang2022systematic}, and \cite{ring2019survey}, .
 Despite the great strides made in NIDS dataset development, researchers have identified limitations which make it hard to benchmark methods and expand on dataset features.
-Some of these limitations include difficulty reproducing a dataset \cite{ferriyan2021}, \cite{Chou2022}; lack of a standard feature set \cite{sarhan_arxiv2021}, \cite{Sarhan2021}; and the inability to assess how a methodology generalizes across a broad set of datasets and scenarios \cite{sarhan2020netflow}, \cite{Sarhan2021}, \cite{wolsing2021ipal}.
+Some of these limitations include difficulty reproducing a dataset \cite{Chou2022}, \cite{ferriyan2021}; lack of a standard feature set \cite{sarhan_arxiv2021}, \cite{Sarhan2021}; and the inability to assess how a methodology generalizes across a broad set of datasets and scenarios \cite{sarhan2020netflow}, \cite{Sarhan2021}, \cite{wolsing2021ipal}.
 
-In this work we propose both a set of guidelines along with a software framework to help dataset developers overcome these limitations.
+In this work we propose both a set of guidelines along with a sample implementation of the guidelines to help dataset developers overcome these limitations.
 The focus of the work presented here is to improve the handoff of a NIDS dataset to other researchers which has not been well explored in NIDS dataset research.
 Figure XXX shows the dataset development process adapted from \cite{sarhan_arxiv2021} and \cite{e23111532} to show where this work logically fits. 
 As can be seen highlighted in the figure, we focus on improvements for NIDS dataset feature and label generation which leads to additional improvements for the final delivery of the dataset.
-More specifically, we provide a set of guidelines and a framework such that the end delivery of a NIDS dataset includes the original source network data as well as concrete scripts for generating each feature and label.
+More specifically, we provide a set of guidelines that can be used such that the end delivery of a NIDS dataset includes the original source network data as well as concrete scripts for generating each feature and label.
 With both of these items in hand, researchers will be able to reliably recreate a dataset, ensure the same features are available across multiple datasets, and perform their own additional feature engineering using various NIDS datasets as depicted in Figure XXX.
 
 The main contributions of this work are as follows:
@@ -69,18 +70,18 @@ The main contributions of this work are as follows:
     \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of network intrusion detection datasets from one researcher to another
     \item We identify examples seen in current research that hinder the handoff of network intrusion detection datasets between researchers
     \item Guidelines are provided as a framework for overcoming limitations currently present in network intrusion detection dataset handoff between researchers
-    \item A reference implementation of the framework is presented along with publicly available source code \footnote{TBD}
+    \item A sample implementation of the guidelines is presented along with publicly available source code \footnote{TBD}
 \end{itemize}
 
 The remainder of this work is outlined as follows.
 In section \ref{sec:related_work} related works that look to improve the NIDS dataset development process are explored.
 Sections \ref{sec:characteristics} and \ref{sec:intrinsic_value} discuss the unique characteristics to NID datasets that make the area challenging and looks to recognize the intrinsic value of a NID scenario.
-In section \ref{sec:nidddf} we discuss the details of our proposed framework and guidelines including a sample implementation.
+In section \ref{sec:nidddf} we discuss the details of our proposed guidelines including a sample implementation.
 Finally, the paper concludes and outlines future work in Section \ref{sec:conclusion}.
 
 \section{Related Work}\label{sec:related_work}
 
-The publicly available NID datasets that have been developed by researchers are well explored and analyzed in the literature through surveys such as \cite{ring2019survey}, \cite{Chou2022}, and \cite{yang2022systematic}.
+The publicly available NID datasets that have been developed by researchers are well explored and analyzed in the literature through surveys such as \cite{Chou2022}, \cite{yang2022systematic}, and \cite{ring2019survey}.
 These surveys break down the various datasets by different criteria such as data format, real versus synthetic data, availability, as well as statistical data regarding the datasets.
 Other works seek to compare the value of various features delivered with NID datasets.
 In \cite{7809531}, the features of the KDD99 \cite{kdd99} and UNSW-NB15 \cite{unswnb15} datasets are compared and it is shown that the features provided with the UNSW-NB15 dataset provide a lower false alarm rate (FAR).
@@ -96,36 +97,35 @@ In \cite{sarhan2021cyber}, this expanded feature set is used to perform federate
 Finally, in \cite{sarhan_arxiv2021}, multiple common benchmark datasets are compared using the expanded NetFlow feature set and a set of features generated using CICFlowMeter \cite{lashkari2017characterization} in order to evaluate the relative performance of two standard feature sets generated from the same base network data.
 
 Our work looks to build off of that published by Sarhan et al. in order to enable researchers to overcome the limitations discussed in these works.
-Rather than defining a standard feature set, we aim to make it easier for researchers to provide a dataset that is reproducible in terms of features and easily expanded.
+Rather than defining a standard feature set, we aim to make it easier for researchers to provide a dataset that is reproducible in terms of features and easily expanded or adjusted.
 In this way, one could easily use a standard feature set as well as research augmenting such a feature set for improvements.
 
 The work in \cite{ferriyan2021} introduces the HIKARI-2021 dataset which focuses on including encrypted data as part of its dataset.
 In addition, a set of content and process requirements are presented for generating a reproducible dataset.
-The content requirements outlined includes providing full packet capture (PCAP) files, including full data payload, real traffic is anonymized, ground truth is provided, up-to-date traffic is captured, labeled data, and information regarding encryption.
+The content requirements outlined includes providing full packet capture (PCAP) files, including full data payload, anonymizing real traffic,  providing ground truth data, using up-to-date traffic, labeling the data, and providing information regarding encryption.
 The process requirements pertain to information that should be provided in order to make generating the dataset reproducible.
 While we agree with much of this work, we look to extend these concepts by requiring actual scripts to generate features and perform labeling along with full PCAP files.
 This leaves no ambiguity in descriptions for how to regenerate a dataset.
-As an example Zeek \footnote{https://zeek.org/} was used to extract the features for HIKARI-2021, however, no Zeek scripts were provided such that all features could be reproduced properly by researchers downstream.
-In addition, while privacy of users should be respected, we do not see it as a necessary requirement to mechanically produce a NID dataset.
+As an example Zeek \footnote{https://zeek.org/} was used to extract the features for HIKARI-2021, however, no Zeek scripts were provided such that all features can be reproduced properly by researchers downstream.
 
 While not the main focus, both \cite{e23111532} and \cite{layeghy2021} discuss and tackle the need to use a common feature set for comparison of their methods as opposed to using proprietary features delivered with most NID datasets available today.
 Both provide informative descriptions regarding the features used in their work.
 In addition, \cite{layeghy2021} provides the actual calculations of the features used in their work.
-We believe this is a step in the right direction for the level of detail necessary to reproduce datasets.
+We believe this is a step in the right direction for the level of detail necessary to reproduce datasets from source data for additional research.
 In this work, we advocate to naturally extend this information into scripts that are provided along with source network captures to make reproduction and extending the dataset more accessible and leave less room for error.
 
 The survey presented in \cite{Chou2022} covers network intrusion detection with a focus on datasets and their associated challenges.
 A discussion on the reproducibility of methods found in research using public datasets is presented.
 Here, it is shown that there are copious examples of research that is not reproducible either due to code not being available, portions of code that is missing, or code that is too unique to an individual researcher's environment.
 The focus of these critiques were on research performed using NID datasets.
-We believe using the framework outlined in our work will reduce these types of errors by enabling the development of datasets that have a clear path for being handed off from one researcher to another.
+We believe using the guidelines outlined in our work will reduce these types of errors by enabling the development of datasets that have a clear path for being handed off from one researcher to another.
 
 The work in \cite{9787094} presents Reliable-NIDS (R-NIDS) as a system for working with multiple integrated datasets.
 The method is used to produce the UNK22 dataset, which is a combination of several well known existing datasets.
 The premise of \cite{9787094} is that research assessed across a single NID dataset does not indicate that it will generalize across different networks reliably.
 The authors point to the fact that NID datasets have both different feature sets and formats for the data.
 As a solution to this, the work presents a complete system that uses a method called Feature as a Counter to combine multiple NID datasets into a single dataset.
-We agree with the premise of this work and believe that our work presented here will be a step towards minimizing the difficulties in combining multiple datsets together.
+We agree with the premise of this work and believe that our work presented here will be an additional step towards minimizing the difficulties in combining multiple datsets together.
 
 \section{Unique Characteristics of Network Intrusion Detection Datasets}\label{sec:characteristics}
 There are several characteristics unique to generating NID  datasets that make the downstream hand off of them difficult compared to other dataset types.
@@ -143,7 +143,7 @@ When considering flow data, we may be limited to a specific version of NetFlow, 
 In addition, it is unlikely that researchers can implement planned attacks on a true live network resulting in a collection of data that requires in-depth analysis for labeling.
 In many live network collection situations, some data may need to be redacted or anonymized for privacy purposes.
 
-To have more control over the collection environment, researchers often choose to generate simulated network traffic using traffic generation tools in combination with a dedicated network lab.
+To have more control over the collection environment, researchers often choose to generate simulated network traffic using traffic generation tools in combination with a dedicated network lab \cite{unswnb15}, \cite{sharafaldin2018toward}.
 In these cases, more control is had over the network architecture being simulated and issues such as introducing attacks and labeling data are overcome more easily than a live scenario.
 Even in this scenario, however, one needs to be mindful of how much storage and compute power the facility has available for the task.
 In addition, researchers must take care to assess the quality of the simulated scenario in terms of how well it emulates the same attack in a real world setting.
@@ -153,10 +153,10 @@ Despite these benefits, one must still  consider all of the infrastructure const
 
 \subsection{Collected Data Formats Not Suitable for Machine Learning}\label{subsec:collectionformat}
 Unlike many other areas of research, the collected data format for network data is not in a format suitable for ingestion by a model for training.
-The PCAP format is binary in nature and does not translate well for machine learning.
-In addition, included in the PCAP data are both categorical and numerical data making the problem harder than when compared to other binary formats such as image data. 
+The PCAP and NetFlow collection format is binary in nature and does not translate well for machine learning.
+In addition, included in the data are both categorical and numerical features making the problem harder than when compared to other binary formats such as image data. 
 For example, with image data, one can easily translate all of the data to numerical values for ingestion by a model.
-For PCAP files, there is no direct translation from an IP address to a numerical value.
+For PCAP and NetFlow files, direct translations from an IP address to a numerical value risk losing information regarding similarities between hosts \cite{ringip2vec}.
 In response to this challenge, dataset researchers generally process a PCAP file after collection in order to generate a set of ingestible features based on it.
 
 This generally introduces multiple decision points for a dataset researcher to consider such as delivering all packet data in an ingestible format or summarizing the data into flow data. 
@@ -166,7 +166,7 @@ As discussed further in Section \ref{sec:intrinsic_value}, this is often where t
 
 \subsection{Varied Standard Data Formats}\label{subsec:nostandard}
 When considering the collection of network data there are several standard formats to consider.
-These include PCAPs, various versions of NetFlow, and IPFIX.
+These include PCAPs, various versions of NetFlow, and IPFIX \cite{claise2008specification}.
 In addition to these standard formats, there may also be network hardware that only support vendor standards.
 While always collecting full packet captures is ideal in terms of retaining all information, it is often unfeasible due to the volume of data being produced.
 
@@ -182,58 +182,147 @@ In other words, the value provided by the NID dataset is derived from the actual
 A researcher could provide any number of these derived features with varying degrees of value for attack detection, however, the intrinsic value of the source data remains constant as it is derived from the scenario that was captured.
 
 One goal of this framework is to highlight these two separate activities by requiring delivery of both source data and separate scripts that generate the features that take place during any subsequent feature engineering.
-Providing both items delivers the value of both activities and to downstream researchers.
+Providing both items delivers the value of both activities to downstream researchers.
 
-\section{Network Intrusion Detection Dataset Delivery Framework}\label{sec:nidddf}
+\section{Network Intrusion Detection Dataset Delivery Guidelines}\label{sec:nidddf}
 
-\subsection{Framework Overview}\label{subsec:framework_overview}
-The main ideas behind the proposed framework are simple in statement but oftentimes overlooked in practice.
-Specifically considering the hand off of datasets from one researcher to another; the framework focuses on ease of access, reproducibility, verification, and extension.
+\subsection{Guidelines Details}\label{subsec:framework_overview}
+The main ideas behind the proposed guidelines are simple in statement but oftentimes overlooked in practice.
+Specifically considering the hand off of datasets from one researcher to another; the guidelines focus on ease of access, reproducibility from source data, verification, and extension.
 The guidelines are meant to provide general guidance for making the delivery of NID datasets meet these four areas of focus.
-We note that the implementation of the guidelines will differ from our reference implementation due to the variety of tools that researchers use to generate their datasets.
+We note that the implementation of the guidelines will differ from our sample implementation due to the variety of tools that researchers use to generate their datasets.
 As discussed further in Section \ref{sec:conclusion}, we aim to provide a remedy for implementation differences in future work.
+In addition, it is important to make the distinction that when we reference reproducibility of a dataset, we refer to reproducing the dataset's final features from the original source data as opposed to recreating and re-executing the particular network intrusion detection scenario.
 
-\subsection{Framework Guidelines}\label{subsec:framework_guidelines}
-\begin{enumerate}
-    \item Provide direct access to all data and scripts for dataset
-        \begin{itemize}
-            \item Provide a download script
-            \item Avoid barriers to download such as requiring logins or filling out forms
-        \end{itemize}
+The ten guidelines are outlined and described in Table \ref{tbl:guidelines}.
+Guidelines one through four pertain to providing downstream researchers with the resources necessary to actively reproduce and enhance the provided dataset.
+Guidelines five through nine outline steps that can be taken to ensure that all of the dataset features and labels can be regenerated from source data and that the steps for this generation of features can be verified and understood by downstream researchers.
+Finally, guideline ten is specifically included to emphasize that the delivered datasets can be considered active projects and adjust over time for any initial errors found after initial delivery to researchers.
 
-    \item Include complete source data to largest extent possible
-        \begin{enumerate}
+\begingroup
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{2.0} % Default value: 1
+\begin{table*}
+\centering
+\caption{
+    The guidelines for improving the delivery of network intrusion detection datasets from dataset researchers to downstream researchers.
+}
+\label{tbl:guidelines}
+%\resizebox{\columnwidth}{!}{%
+%\begin{tabular}{|l|c|c|c|c|c|}
+\begin{tabular}{m{8cm} m{8cm}}
+    \hline
+    \textbf{Guideline} & \textbf{Details} \\
+    \hline
+
+    \textbf{(1) Provide direct access to all data and scripts for dataset} & 
+    \begin{itemize}
+        \item Provide a download script
+        \item Avoid barriers to download such as requiring logins or filling out forms
+    \end{itemize} \\
+
+    \textbf{(2) Include complete source data to the most detailed extent possible} &
+    \begin{itemize}
             \item Full PCAP
             \item Partial PCAP
             \item Full Network Flow data
             \item Partial Network Flow data
-        \end{enumerate}
+        \end{itemize} \\
 
-    \item If possible, provide access to all tools needed to generate dataset
+    \textbf{(3) If possible, provide access to all tools needed to generate dataset} &
+    \begin{itemize}
+        \item Provide a container environment or virtual machine
+    \end{itemize} \\
+
+    \textbf{(4) Provide documentation indicating how to reproduce a dataset from source data} &
         \begin{itemize}
-            \item Provide a container environment
-        \end{itemize}
+            \item Provide commands needed to execute scripts
+            \item Identify specific versions of tools required
+        \end{itemize} \\
 
-    \item Include source code needed to reproduce dataset features
+    \textbf{(5) Include source code needed to reproduce dataset features} &
+    \begin{itemize}
+        \item Avoid making code too specific to a given user environment
+        \item Following guideline (3) may help to avoid environment differences
+    \end{itemize} \\
 
-    \item The source code for each feature should be easily identifiable
+    \textbf{(6) The source code for each feature should be easily identifiable} &
+    \begin{itemize}
+        \item Consider naming conventions that match the final  feature name
+        \item Consider a separate script, code unit, or identifier for each feature
+    \end{itemize} \\
 
-    \item The generation of each feature should be independent from others
+    \textbf{(7) The generation of each feature should be independent from others} &
+    \begin{itemize}
+        \item Makes the specific code that creates each feature more understandable and reviewable
+        \item Enables separate execution to create a feature
+        \item Facilitates the ability to remove or add new features by downstream researchers
+    \end{itemize} \\
 
-    \item Apply guidelines for features to labels
+    \textbf{(8) Apply guidelines outlined for features to labels as well} &
+    \begin{itemize}
+        \item Treat labels the same as other features by applying guidelines (4), (5), and (6) for any labels applied to the data
+        \item While labels are significant for model training, during dataset generation time, they are simply a special case of features
+    \end{itemize} \\
 
-    \item Make source code for labeling distinct from other features
+    \textbf{(9) Make source code for labeling distinct from other features} &
+    \begin{itemize}
+        \item Having source code for labeling provides important insight for downstream researchers making it important to easily identify
+        \item The labeling procedure and/or criteria can indicate features to avoid using in models.
+              For example, if the labeling criteria is based on a single IP address, it is likely that IP address should not be provided to a model.
+    \end{itemize} \\
 
-    \item Provide documentation indicating how to reproduce dataset
+    \textbf{(10) Provide a mechanism to receive and implement feedback from researchers to correct issues and improve dataset} &
         \begin{itemize}
-            \item Indicate the specific version of tools needed
-        \end{itemize}
+            \item Allows dataset to remain current
+            \item Prevents multiple variations of the same dataset from being developed by different researchers for corrected issues
+            \item Consider using version control on the source code used to generate the dataset
+        \end{itemize} \\
+    \hline
+\end{tabular}
+%}
+\end{table*}
+\endgroup
 
-\end{enumerate}
+\subsection{Sample Implementation}\label{subsec:framework_implementation}
+We provide a sample implementation \footnote{github reference} of the guidelines outlined in Section \ref{subsec:framework_overview} which can be used and adapted by NID dataset researchers.
+While this specific implementation makes use of Zeek\footnote{https://zeek.org} and Argus \footnote{https://openargus.org/} in combination with Python \footnote{https://www.python.org/}, we note that any toolchain which sufficiently implements the guidelines would achieve the same goals of providing ease of access, reproducibility from source data, verification, and extension.
+We used a small portion of the UNSW-NB15 dataset \cite{unswnb15} as the source data for this implementation as this dataset provides open access to all of its source data.
+Note that some choices for this implementation were made to specifically exercise usage of the guidelines and that the resulting dataset is for example purposes.
+Therefore, our example dataset should not be used for researching network intrusion detection techniques.
 
-\subsection{Framework Implementation}\label{subsec:framework_implementation}
-We provide a reference implementation of the guidelines outlined in Section \ref{subsec:framework_guidelines} which can be used and adapted by NID dataset researchers.
-While this specific implementation makes use of Zeek\footnote{https://zeek.org} in combination with a Docker\footnote{https://www.docker.com} container, we note that any toolchain which sufficiently implements the guidelines would achieve the same goals of providing ease of access, reproducibility, verification, and extension.
+We based our sample implementation of the guidelines on characterizing the creation of delivered dataset from source data into four main areas:  acquiring source data, feature processing, label processing, and final dataset processing.
+Using YAML \footnote{https://yaml.org/} for the format of our input files for the implementation we see these main areas depicted in Listing \ref{lst:yamltemplate}.
+In the documentation section of this file, one can indicate all of the versions of tools used.
+The setup\_options section is in place for dealing with construction complexities such as needing to resolve paths and indicating where to store artifacts.
+The remaining sections handle our four main areas of concern and are intended to explicitly be populated with the commands that will be executed to generate a dataset from source files.
+Both the feature processing and label processing sections contain sub-sections corresponding to what level of data is being used for the given feature or label.
+Features that require inspecting individual packets would be considered packet\_level, features that are derived from a single NetFlow entry would be considered flow\_level, and features requiring access to multiple flows or higher level data would be considered to be at the network\_level.
+The file is read in by python code and commands are executed from the top down.
+
+Excluding the documentation and setup\_options sections the sample implementation is set up with a directory structure that mirrors the remaining sections of the input YAML file.
+The contents of these directories corresponds to scripting and configuration data for the corresponding step.
+Doing this makes it easy for researchers to find the relevant scripts they are interested in examining and updating.
+
+\begin{lstlisting}[label=lst:yamltemplate, caption={A template input file for our sample guidelines implementation.  Each section would be filled in with either information or explicit commands that get run.}, captionpos=b, basicstyle=\footnotesize, backgroundcolor=\color{gray!10!white}, frame=stb]
+   documentation:
+   
+   setup_options:
+   
+   step_acquire_source_data:
+   
+   step_feature_processing:
+     packet_level:
+     flow_level:
+     network_level:
+   
+   step_label_processing:
+     packet_level:
+     flow_level:
+     network_level:
+   
+   step_final_dataset_processing:
+\end{lstlisting}
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
 

@@ -43,7 +43,7 @@ setup_options = dataset_instructions['setup_options']
 step_acquire_source_data = dataset_instructions['step_acquire_source_data']
 step_feature_processing = dataset_instructions['step_feature_processing']
 step_label_processing = dataset_instructions['step_label_processing']
-step_post_processing = dataset_instructions['step_post_processing']
+step_post_processing = dataset_instructions['step_final_dataset_processing']
 
 ###
 # Resolve replacements in our setup_options
