@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 ##
-# A thin wrapper to run python scripts
-# specified in a configuration file.
+# A thin wrapper to run python scripts specified in a configuration file.
+# All scripts called from this wrapper are expected to have two args:
+#   1.  working directory for where to put any output files
+#   2.  An input data file to parse as input
 ###
 
 WORKING_DIR=$1

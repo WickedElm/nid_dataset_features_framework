@@ -2,7 +2,7 @@
 
 ##
 # A thin wrapper around zeek to launch  it
-# with an augmented ZEEKPATH
+# with an augmented ZEEKPATH.
 ###
 
 # Get user input zeek packages directory

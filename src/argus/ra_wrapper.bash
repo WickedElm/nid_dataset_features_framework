@@ -2,7 +2,9 @@
 
 ##
 # A thin wrapper around the argus client ra to launch  it
-# with specified features from the argus file
+# with specified features from the argus file.
+# The configuration file is simply the list of argus fields to
+# include in the output.  See man ra for fields available.
 ###
 
 WORKING_DIR=$1
