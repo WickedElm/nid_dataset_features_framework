@@ -7,6 +7,7 @@ import subprocess
 # Process inputs
 ###
 working_directory = sys.argv[1]
+data_file = sys.argv[2] # Not used 
 
 ###
 # Read in ground truth data

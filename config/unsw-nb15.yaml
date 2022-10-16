@@ -29,7 +29,7 @@ step_label_processing:
   packet_level:
 
   flow_level:
-    - python ./src/step_label_processing/flow_level/label.py ${setup_options.working_directory}
+    - ./src/python/python-wrapper.bash ${setup_options.working_directory} ${setup_options.current_directory}/src/step_label_processing/flow_level /dev/null
 
   network_level:
 
