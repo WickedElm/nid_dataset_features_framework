@@ -280,7 +280,7 @@ The main contributions of this work are as follows:
     \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of NID datasets %from one researcher to another
     \item We identify examples seen in current research that hinder the handoff of NID datasets between researchers
     \item Guidelines are provided as a framework for overcoming limitations currently present in the NID dataset handoff process between researchers
-    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{\url{https://github.com/WickedElm/nid\_dataset\_features\_framework}}
+    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{\linkanon{\url{https://github.com/WickedElm/nid\_dataset\_features\_framework}}}
 \end{itemize}
 
 The remainder of this work is outlined as follows.
@@ -606,6 +606,7 @@ These configuration files have a naming convention of $\_\_load\_\_.<tool>$.
 A sample of these files can be seen in Figure \ref{fig:sample_load_files}.
 For both Zeek and Python, the entries in these configuration files refer to a Zeek and python script respectively.
 The entries in the configuration files for Argus correspond to a field passed to the Argus client as part of the field identifier option.
+In addition, the Zeek scripting is supported by the implementation of a new Zeek package located in our source code the under $./src/zeek/packages$ directory.
 
 \begin{figure}
 \centering
