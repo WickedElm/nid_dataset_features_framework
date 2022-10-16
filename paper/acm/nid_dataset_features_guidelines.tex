@@ -53,6 +53,9 @@
 \definecolor{folderbg}{RGB}{124,166,198}
 \definecolor{folderborder}{RGB}{110,144,169}
 \lstset{escapechar=@}%aboveskip}=20pt,belowskip=20pt}
+\lstdefinestyle{ascii-tree}{
+literate={├}{|}1 {─}{--}1 {└}{+}1 
+}
 %\linespread{0.97}
 
 %%
@@ -280,7 +283,7 @@ The main contributions of this work are as follows:
     \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of NID datasets %from one researcher to another
     \item We identify examples seen in current research that hinder the handoff of NID datasets between researchers
     \item Guidelines are provided as a framework for overcoming limitations currently present in the NID dataset handoff process between researchers
-    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{\linkanon{\url{https://github.com/WickedElm/nid\_dataset\_features\_framework}}}
+    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{\url{https://github.com/WickedElm/nid\_dataset\_features\_framework}}
 \end{itemize}
 
 The remainder of this work is outlined as follows.
@@ -731,7 +734,7 @@ This future work would eliminate the burden of researchers having to acquire spe
 
 %% Acknowledgements for Professor Paffenroth
 \begin{acks}
-    We would like to acknowledge Professor Randy Paffenroth for his insights and guidance which helped shape this work.
+    We would like to acknowledge Professor Randy Paffenroth from Worcester Polytechnic Institute for his valuable insights and guidance which helped shape this work.
 \end{acks}
 
 %%
@@ -741,6 +744,92 @@ This future work would eliminate the burden of researchers having to acquire spe
 \bibliography{citations.bib}
 
 \appendix
+
+\section{Directory Structure}
+\begin{minipage}{\columnwidth}
+\begin{lstlisting}[style=ascii-tree, label=lst:dirlisting, caption={
+    A full directory listing of our source code used to implement the guidelines outlined in this paper.
+    One can see how a large portion of the directory structure mirrors the structure of our YAML configuration files. 
+    }, captionpos=b, basicstyle=\tiny, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
+   config
+   |-- template.yaml
+   `-- unsw-nb15.yaml
+   src
+   |-- argus
+   |   `-- ra_wrapper.bash
+   |-- create_dataset.py
+   |-- python
+   |   `-- python-wrapper.bash
+   |-- step_acquire_source_data
+   |   `-- downloader.py
+   |-- step_feature_processing
+   |   |-- flow_level
+   |   |   |-- dbytes.zeek
+   |   |   |-- dload.zeek
+   |   |   |-- dpkts.zeek
+   |   |   |-- dtcpb.zeek
+   |   |   |-- dttl.zeek
+   |   |   |-- dur.zeek
+   |   |   |-- dwin.zeek
+   |   |   |-- is_same_ips_ports.zeek
+   |   |   |-- __load__.argus
+   |   |   |-- __load__.python
+   |   |   |-- __load__.zeek
+   |   |   |-- ltime.zeek
+   |   |   |-- packets.zeek
+   |   |   |-- proto.zeek
+   |   |   |-- sbytes.zeek
+   |   |   |-- service.zeek
+   |   |   |-- sload.zeek
+   |   |   |-- spkts.zeek
+   |   |   |-- state.zeek
+   |   |   |-- stcpb.zeek
+   |   |   |-- stime.zeek
+   |   |   |-- sttl.zeek
+   |   |   |-- swin.zeek
+   |   |   `-- template.zeek
+   |   |-- network_level
+   |   |   |-- ct_src_ltm.py
+   |   |   |-- __load__.argus
+   |   |   |-- __load__.python
+   |   |   |-- __load__.zeek
+   |   |   `-- template.zeek
+   |   `-- packet_level
+   |       |-- __load__.argus
+   |       |-- __load__.python
+   |       |-- __load__.zeek
+   |       `-- template.zeek
+   |-- step_label_processing
+   |   |-- flow_level
+   |   |   |-- label.py
+   |   |   |-- label.zeek
+   |   |   |-- __load__.argus
+   |   |   |-- __load__.python
+   |   |   |-- __load__.zeek
+   |   |   `-- template.zeek
+   |   |-- network_level
+   |   |   |-- __load__.argus
+   |   |   |-- __load__.python
+   |   |   |-- __load__.zeek
+   |   |   `-- template.zeek
+   |   |-- NUSW-NB15_GT.csv
+   |   `-- packet_level
+   |       |-- __load__.argus
+   |       |-- __load__.python
+   |       |-- __load__.zeek
+   |       `-- template.zeek
+   |-- step_post_processing
+   |   `-- combine_features.py
+   `-- zeek
+       |-- packages
+       |   `-- mlfeatures
+       |       |-- __load__.zeek
+       |       `-- main.zeek
+       |-- template.zeek
+       `-- zeek-wrapper.bash
+\end{lstlisting}
+\end{minipage}
+
 \section{Extended Code Listings}
 
 \begin{minipage}{\linewidth}
@@ -787,7 +876,6 @@ This future work would eliminate the burden of researchers having to acquire spe
    }
 \end{lstlisting}
 \end{minipage}
-
 
 \subsection{Fully Populated Sample YAML File}
 Listing \ref{lst:populatedyaml} shows the fully populated YAML file developed for this sample implementation of the guidelines.
