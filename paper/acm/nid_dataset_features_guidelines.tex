@@ -45,7 +45,7 @@
 %% for your publication.
 %%
 %%
-\documentclass[sigconf]{acmart}
+\documentclass[sigconf, anonymous, screen, review]{acmart}
 \usepackage{array}
 \usepackage{listings}
 \usepackage{tikz}
@@ -280,7 +280,7 @@ The main contributions of this work are as follows:
     \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of NID datasets %from one researcher to another
     \item We identify examples seen in current research that hinder the handoff of NID datasets between researchers
     \item Guidelines are provided as a framework for overcoming limitations currently present in the NID dataset handoff process between researchers
-    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{https://github.com/WickedElm/nid\_dataset\_features\_framework}
+    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{\url{https://github.com/WickedElm/nid\_dataset\_features\_framework}}
 \end{itemize}
 
 The remainder of this work is outlined as follows.
@@ -541,13 +541,13 @@ It is assumed that any usage of it would be in a similar environment.
 
 \subsubsection{Overview}\label{subsubsec:sample_overview}
 We provide a sample implementation of the guidelines outlined in Section \ref{subsec:framework_overview} which can be used and adapted by NID dataset researchers.
-While this specific implementation makes use of Zeek\footnote{https://zeek.org/} and Argus\footnote{https://openargus.org/} in combination with Python\footnote{https://www.python.org/}, we note that any toolchain which sufficiently implements the guidelines would achieve the same goals of providing ease of access, reproducibility from source data, verification, and extension.
+While this specific implementation makes use of Zeek\footnote{\url{https://zeek.org/}} and Argus\footnote{\url{https://openargus.org/}} in combination with Python\footnote{\url{https://www.python.org/}}, we note that any toolchain which sufficiently implements the guidelines would achieve the same goals of providing ease of access, reproducibility from source data, verification, and extension.
 We used a small portion of the UNSW-NB15 dataset \cite{unswnb15} as the source data for this implementation as this dataset provides open access to all of its source data.
 Note that some choices for this implementation were made to specifically exercise usage of the guidelines and that the resulting dataset is for example purposes.
 Therefore, our example dataset should not be used for researching NID techniques.
 
 We based our sample implementation of the guidelines on characterizing the creation of a deliverable dataset from source data into four main areas:  acquiring source data, feature processing, label processing, and final dataset processing.
-Using YAML\footnote{https://yaml.org/} for the format of our input files for the implementation we see these main areas depicted in Listing \ref{lst:yamltemplate}.
+Using YAML\footnote{\url{https://yaml.org/}} for the format of our input files for the implementation we see these main areas depicted in Listing \ref{lst:yamltemplate}.
 In the documentation section of this file, one can indicate all of the versions of tools used.
 The setup\_options section is in place for dealing with construction complexities such as needing to resolve paths and indicating where to store artifacts.
 The remaining sections handle our four main areas of concern and are intended to explicitly be populated with the commands that will be executed to generate a dataset from source files.
@@ -728,6 +728,11 @@ While these guidelines are a step forward in progress in this area of research, 
 In future work we aim to remove many of these complexities by using server based methods to facilitate these guidelines.
 This future work would eliminate the burden of researchers having to acquire specific versions of tools and provide efficiency gains for distributing new features.
 
+%% Acknowledgements for Professor Paffenroth
+\begin{acks}
+    We would like to acknowledge Professor Randy Paffenroth for his insights and guidance which helped shape this work.
+\end{acks}
+
 %%
 %% The next two lines define the bibliography style to be used, and
 %% the bibliography file.
@@ -840,45 +845,45 @@ We provide the expected output after executing our sample implementation of the 
     Note that we have added some line breaks in the listing to make the output easier to view.
     }, captionpos=b, basicstyle=\tiny, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
 
-Executing [python src/step_acquire_source_data/downloader.py ./unsw_nb15_dataset]
-Downloading 17-2-2015_1.pcap
-Complete.
-
-Executing [rm -f ./unsw_nb15_dataset/17-2-2015_1.argus]
-Complete.
-
-
-Executing [argus -S 60 -m -r ./unsw_nb15_dataset/17-2-2015_1.pcap -w ./unsw_nb15_dataset/17-2-2015_1.argus]
-Complete.
-
-
-Executing [./src/argus/ra_wrapper.bash ./unsw_nb15_dataset 17-2-2015_1.argus argus_features.csv ./src/step_feature_processing/packet_level/__load__.argus]
-
-Executing [ra -c , -n -u -r ./unsw_nb15_dataset/17-2-2015_1.argus 
-              -s stime proto saddr sport daddr dport sloss dloss smeansz dmeansz tcprtt synack ackdat Sjit Djit Sintpkt Dintpkt   > 
-              ./unsw_nb15_dataset/argus_features.csv]
-Complete.
-
-
-Executing [./src/zeek/zeek-wrapper.bash ./src/zeek/packages ./nsw_nb15_dataset mlfeatures -r ./unsw_nb15_dataset/17-2-2015_1.pcap]
-zeek version 4.2.1
-Complete.
-
-
-Executing [./src/python/python-wrapper.bash ./unsw_nb15_dataset ./src/step_feature_processing/network_level ./unsw_nb15_dataset/features.log]
-
-Executing [python ./src/step_feature_processing/network_level/ct_src_ltm.py ./unsw_nb15_dataset ./unsw_nb15_dataset/features.log]
-Complete.
-
-
-Executing [python ./src/step_label_processing/flow_level/label.py ./unsw_nb15_dataset]
-Complete.
-
-
-Executing [python ./src/step_post_processing/combine_features.py 
-              /home/lew/Documents/school/research/nid_dataset_features_framework/unsw_nb15_dataset 
-              unsw_nb15_dataset.csv]
-Complete.
+   Executing [python src/step_acquire_source_data/downloader.py ./unsw_nb15_dataset]
+   Downloading 17-2-2015_1.pcap
+   Complete.
+   
+   Executing [rm -f ./unsw_nb15_dataset/17-2-2015_1.argus]
+   Complete.
+   
+   
+   Executing [argus -S 60 -m -r ./unsw_nb15_dataset/17-2-2015_1.pcap -w ./unsw_nb15_dataset/17-2-2015_1.argus]
+   Complete.
+   
+   
+   Executing [./src/argus/ra_wrapper.bash ./unsw_nb15_dataset 17-2-2015_1.argus argus_features.csv ./src/step_feature_processing/packet_level/__load__.argus]
+   
+   Executing [ra -c , -n -u -r ./unsw_nb15_dataset/17-2-2015_1.argus 
+                 -s stime proto saddr sport daddr dport sloss dloss smeansz dmeansz tcprtt synack ackdat Sjit Djit Sintpkt Dintpkt   > 
+                 ./unsw_nb15_dataset/argus_features.csv]
+   Complete.
+   
+   
+   Executing [./src/zeek/zeek-wrapper.bash ./src/zeek/packages ./nsw_nb15_dataset mlfeatures -r ./unsw_nb15_dataset/17-2-2015_1.pcap]
+   zeek version 4.2.1
+   Complete.
+   
+   
+   Executing [./src/python/python-wrapper.bash ./unsw_nb15_dataset ./src/step_feature_processing/network_level ./unsw_nb15_dataset/features.log]
+   
+   Executing [python ./src/step_feature_processing/network_level/ct_src_ltm.py ./unsw_nb15_dataset ./unsw_nb15_dataset/features.log]
+   Complete.
+   
+   
+   Executing [python ./src/step_label_processing/flow_level/label.py ./unsw_nb15_dataset]
+   Complete.
+   
+   
+   Executing [python ./src/step_post_processing/combine_features.py 
+                 /home/lew/Documents/school/research/nid_dataset_features_framework/unsw_nb15_dataset 
+                 unsw_nb15_dataset.csv]
+   Complete.
 
 \end{lstlisting}
 
