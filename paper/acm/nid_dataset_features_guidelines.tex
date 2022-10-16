@@ -167,13 +167,13 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-    Applying machine learning and deep learning techniques to perform network intrusion detection has expanded significantly in recent years.
+    Applying deep learning techniques to perform network intrusion detection has expanded significantly in recent years.
     One of the main factors contributing to this expansion is the availability of improved network intrusion detection datasets.
     Despite recent improvements to these datasets, researchers have found it difficult to effectively compare methodologies across a wide variety of datasets due to the unique features generated as part of the delivered datasets.
     In addition, it is often difficult to generate new features using a dataset due to the lack of packet capture files or inadequate ground truth labeling information for a given dataset.
     In this work, we look at network intrusion dataset development with a focus on improving the delivery of datasets from a dataset researcher to a researcher acquiring the dataset for the research of anomaly detection and classification techniques.
     Specifically, we focus on making existing features more understandable, providing clear labeling criteria, and allowing a clear path for researchers to generate new features.
-    In this work we outline a set of guidelines for achieving these improvements along with providing a publicly available sample implementation that meets the guidelines using an existing network intrusion detection dataset.
+    We outline a set of guidelines for achieving these improvements along with providing a publicly available sample implementation that meets the guidelines using an existing network intrusion detection dataset.
 \end{abstract}
 
 %%
@@ -229,14 +229,14 @@ Network intrusion detection (NID) is a methodology to protect computer networks 
 %Anomaly-based NIDS, however, excel at identifying malicious network behavior by detecting when network traffic strays beyond a baseline level of benign activity.
 %This makes it more useful for the detection of zero-day attacks.
 Researchers have begun to leverage machine and deep learning techniques in order to effectively combat the increasingly complex and evolving attacks taking place on networks today \cite{yang2022systematic}.
-In order to properly research and verify the applicability of these data intensive techniques to NIDS, one must utilize datasets consisting of network scenarios that involve both benign and malicious activity.
-To support these efforts a growing number of datasets have been developed such as those surveyed in \cite{Chou2022}, \cite{yang2022systematic}, and \cite{ring2019survey}, .
+In order to properly research and verify the applicability of these data intensive techniques to network intrusion detection systems (NIDS), one must utilize datasets consisting of network scenarios that involve both benign and malicious activity.
+To support these efforts a growing number of datasets have been developed such as those surveyed in \cite{Chou2022}, \cite{ring2019survey}, and \cite{yang2022systematic}.
 Despite the great strides made in NIDS dataset development, researchers have identified limitations which make it hard to benchmark methods and expand on dataset features.
 Some of these limitations include difficulty reproducing a dataset \cite{Chou2022}, \cite{ferriyan2021}; lack of a standard feature set \cite{sarhan_arxiv2021}, \cite{Sarhan2021}; and the inability to assess how a methodology generalizes across a broad set of datasets and scenarios \cite{sarhan2020netflow}, \cite{Sarhan2021}, \cite{wolsing2021ipal}.
 
 \begin{figure*}
 \centering
-    \scalebox{0.994}{%
+    \scalebox{0.99}{%
     \begin{tikzpicture}
         \tikzstyle{process} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=red!30, text width=2cm];
         \tikzstyle{processimp} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=blue!30, text width=2cm];
@@ -277,9 +277,9 @@ With both of these items in hand, researchers will be able to reliably recreate 
 The main contributions of this work are as follows:
 
 \begin{itemize}
-    \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of NID datasets from one researcher to another
+    \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of NID datasets %from one researcher to another
     \item We identify examples seen in current research that hinder the handoff of NID datasets between researchers
-    \item Guidelines are provided as a framework for overcoming limitations currently present in NID dataset handoff between researchers
+    \item Guidelines are provided as a framework for overcoming limitations currently present in the NID dataset handoff process between researchers
     \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{https://github.com/WickedElm/nid\_dataset\_features\_framework}
 \end{itemize}
 
@@ -307,7 +307,7 @@ In addition, the works discuss how this hinders the transition from research to 
 %In \cite{sarhan2021cyber}, this expanded feature set is used to perform federated learning across multiple datasets to simulate using data from several different networks to inform a centralized model.
 %Finally, in \cite{sarhan_arxiv2021}, multiple common benchmark datasets are compared using the expanded NetFlow feature set and a set of features generated using CICFlowMeter \cite{lashkari2017characterization} in order to evaluate the relative performance of two standard feature sets generated from the same base network data.
 
-Our work looks to build off of that published by Sarhan et al. in order to enable researchers to overcome the limitations discussed in these works.
+Our work looks to build off of that published by Sarhan et al. in order to enable researchers to overcome these identified limitations.
 %Rather than defining a standard feature set, we aim to make it easier for researchers to provide a dataset that is reproducible in terms of features and easily expanded or adjusted.
 We aim to make it easier for researchers to provide a dataset that is reproducible from source data and easily expanded or adjusted.
 In this way, one could easily use a standard feature set as well as research augmenting such a feature set for improvements.
@@ -317,16 +317,16 @@ In addition, a set of content and process requirements are presented for generat
 The content requirements outlined includes providing full packet capture (PCAP) files, including full data payload, anonymizing real traffic,  providing ground truth data, using up-to-date traffic, labeling the data, and providing information regarding encryption.
 The process requirements pertain to information that should be provided in order to make generating the dataset reproducible.
 %While we agree with much of this work, we look to extend these concepts by requiring actual scripts to generate features and perform labeling along with full PCAP files.
-We agree with these concepts and look to extend them by requiring inclusion of actual scripts to generate features and perform labeling along with full PCAP files.
+We agree with these concepts and look to extend them by proposing the inclusion of actual scripts to generate features and perform labeling along with full PCAP files.
 This leaves no ambiguity in descriptions for how to regenerate a dataset.
 %As an example Zeek\footnote{https://zeek.org/} was used to extract the features for HIKARI-2021, however, no Zeek scripts were provided such that all features can be reproduced properly by researchers downstream.
 
 While not the main focus, both \cite{e23111532} and \cite{layeghy2021} discuss and tackle the need to use a common feature set for comparison of their methods as opposed to using proprietary features delivered with most NID datasets available today.
 Both provide informative descriptions regarding the features used in their work.
-In addition, \cite{layeghy2021} provides the actual calculations of the features used in their work.
-We believe this is a step in the right direction for the level of detail necessary to reproduce datasets from source data for additional research.
+In addition, \cite{layeghy2021} provides the actual calculations for the features used in their work.
+We believe this is a step in the right direction for the level of detail necessary to reproduce datasets from source data. 
 %In this work, we advocate to naturally extend this information into scripts that are provided along with source network captures to make reproduction and extending the dataset more accessible and leave less room for error.
-We seek to naturally extend this information into scripts that are provided along with source network captures to make reproduction and extending the dataset more accessible and leave less error prone.
+We seek to naturally extend this information into scripts that are provided along with source network captures to make reproduction and extending the dataset more accessible and leave less opportunity for error.
 
 The survey presented in \cite{Chou2022} covers NID with a focus on datasets and their associated challenges.
 A discussion on the reproducibility of methods found in research using public datasets is presented.
@@ -359,7 +359,8 @@ This includes the network architecture, the size of the network, and the equipme
 Depending on the amount of network traffic as well as storage devices available, it may not be feasible to collect all network data in PCAP format.
 This results in some information being lost at the collection point when using alternatives such as NetFlow.
 When considering flow data, we may be limited to a specific version of NetFlow, such as v5, or having only a subset of attributes available for collection.
-In addition, it is unlikely that researchers can implement planned attacks on a true live network resulting in a collection of data that requires in-depth analysis for labeling.
+In addition, it is unlikely that researchers can execute attacks on a true live network.
+This leaves such collections having an unknown mix of benign and potentially malicious network activity requiring in-depth analysis for labeling.
 In many live network situations, some data may need to be redacted or anonymized for privacy purposes.
 
 To have more control over the collection environment, researchers often choose to generate simulated network traffic using traffic generation tools in combination with a dedicated network lab \cite{unswnb15}, \cite{sharafaldin2018toward}.
@@ -371,18 +372,18 @@ When combining both simulated and live data together for a NID dataset, research
 Despite these benefits, one must still consider the constraints for both settings.
 
 %\subsection{Collected Data Formats Not Suitable for Machine Learning}\label{subsec:collectionformat}
-\subsection{Data Formats Not Suitable for Models}\label{subsec:collectionformat}
-Unlike many other areas of research, the collected data format for network data is not in a format suitable for ingestion by a model for training.
+\subsection{Data Formats Not Suitable for Model Input}\label{subsec:collectionformat}
+Unlike many other areas of research, the collected data format for network data is not in a format suitable for ingestion by a deep learning model for training.
 The PCAP and NetFlow collection format is binary in nature and does not translate well for machine learning.
 In addition, included in the data are both categorical and numerical features making the problem harder than when compared to other binary formats such as image data. 
-For example, with image data, one can easily translate all of the data to numerical values for ingestion by a model.
-For PCAP and NetFlow files, direct translations from an IP address to a numerical value risk losing information regarding similarities between hosts \cite{ringip2vec}.
-In response to this challenge, dataset researchers generally process a PCAP file after collection in order to generate a set of ingestible features based on it.
+For example, with image data, one can directly translate all of the data to numerical values for ingestion by a model.
+For PCAP and NetFlow files, direct translations from an IP address to a numerical value risks losing information regarding similarities between hosts \cite{ringip2vec}.
+In response to this, dataset researchers generally process the binary source data after collection in order to generate a set of ingestible features.
 
 This generally introduces multiple decision points for a dataset researcher to consider such as delivering all packet data in an ingestible format or summarizing the data into flow data. 
 In both cases, one must consider which features to provide and in the case of flow data, which version (if any) is used.
 All of the decisions made at this point are generally valid and at the discretion of the researcher but they introduce the potential to inhibit further progress for other researchers intrested in using the dataset.
-As discussed in Section \ref{sec:intrinsic_value}, this is often where the activities of producing a NID dataset and performing feature engineering are combined into the same activity when it may be more beneficial to explicitly separate them.
+As discussed later in Section \ref{sec:intrinsic_value}, this is often where the activities of producing a NID dataset and performing feature engineering are combined into the same activity when it may be more beneficial to explicitly separate them.
 
 \subsection{Varied Standard Data Formats}\label{subsec:nostandard}
 When considering the collection of network data there are several standard formats to consider.
@@ -402,9 +403,9 @@ We believe it is worthwhile to provide a brief discussion regarding the intrinsi
 Namely, the intrinsic value of a NID dataset is created during the scenario development, execution, and \textit{source data} collection and not by the final delivered features.
 To be clear, the final features are valuable, but they are representative of a separate feature engineering activity that takes place after the intrinsic value of a network scenario has been captured in source data.
 In other words, the value provided by the NID dataset is derived from the actual network intrusion scenario and its collected source data. 
-A researcher could provide any number of these derived features with varying degrees of value for attack detection, however, the intrinsic value of the source data remains constant as it is derived from the scenario that was captured.
+A researcher could provide any number of derived features with varying degrees of value for attack detection, however, the intrinsic value of the source data remains constant as it is derived from the scenario that was captured.
 
-One goal of this framework is to highlight these two separate activities by requiring delivery of both source data and separate scripts that generate the features that take place during any subsequent feature engineering.
+One goal of this framework is to highlight these two separate activities by advocating for the delivery of both source data and separate scripts that generate the features that take place during any subsequent feature engineering.
 Providing both items delivers the value of both activities to downstream researchers.
 
 
@@ -412,15 +413,15 @@ Providing both items delivers the value of both activities to downstream researc
 The main ideas behind the proposed guidelines are simple in statement but oftentimes overlooked in practice.
 Specifically considering the hand off of datasets from one researcher to another; the guidelines focus on ease of access, reproducibility from source data, verification, and extension.
 The guidelines are meant to provide general guidance for making the delivery of NID datasets meet these four areas of focus.
-We note that the implementation of the guidelines will differ from our sample implementation due to the variety of tools that researchers use to generate their datasets.
+We note that implementations of the guidelines will differ due to the variety of tools that researchers use to generate their datasets.
 As discussed further in Section \ref{sec:conclusion}, we aim to provide a remedy for implementation differences in future work.
-In addition, it is important to make the distinction that when we reference reproducibility of a dataset, we refer to reproducing the dataset's final features from the original source data as opposed to recreating and re-executing the particular NID scenario.
+In addition, it is important to make the distinction that when we reference reproducibility of a dataset, we refer to reproducing the dataset's final features from the original source data as opposed to recreating and re-executing the dataset's NID scenario.
 
 The ten guidelines are outlined and described in Table \ref{tbl:guidelines}.
 Guidelines one through four pertain to providing downstream researchers with the resources necessary to actively reproduce and enhance the provided dataset.
 Guidelines five through nine outline steps that can be taken to ensure that all of the dataset features and labels can be regenerated from source data and that the steps for this generation of features can be verified and understood by downstream researchers.
-Finally, guideline ten is specifically included to emphasize that the delivered datasets can be considered active projects and adjust over time for any initial errors found after initial delivery to researchers.
-Collectively, these guidelines are proposed to help avoid situations such as with the KDD Cup '99 \cite{kdd99}, \cite{tavallaee2009detailed} and CICIDS2017 datasets \cite{sharafaldin2018toward}, where researchers have found issues with the original datasets and resulting in a multiple variants of the dataset being available with specific corrections \cite{tavallaee2009detailed}, \cite{lanvin:hal-03775466}, \cite{engelen2021}.
+Finally, guideline ten is specifically included to emphasize that the delivered datasets can be considered active projects and adjust over time for any errors found after initial presentation to researchers.
+Collectively, these guidelines are proposed to help avoid situations such as with the KDD Cup '99 \cite{kdd99} and CICIDS2017 datasets \cite{sharafaldin2018toward}, where researchers have found issues with the original datasets resulting in multiple variants of the dataset being available with specific corrections \cite{tavallaee2009detailed}, \cite{lanvin:hal-03775466}, \cite{engelen2021}.
 
 \begingroup
 \setlength{\tabcolsep}{10pt} % Default value: 6pt
@@ -478,7 +479,7 @@ Collectively, these guidelines are proposed to help avoid situations such as wit
     \textbf{(7) The generation of each feature should be independent from others} &
     \begin{itemize}
         \item Makes the specific code that creates each feature more understandable and reviewable
-        \item Enables separate execution to create a feature
+        \item Avoids execution dependencies between features
         \item Facilitates the ability to remove or add new features by downstream researchers
     \end{itemize} \\
 
@@ -550,14 +551,14 @@ Using YAML\footnote{https://yaml.org/} for the format of our input files for the
 In the documentation section of this file, one can indicate all of the versions of tools used.
 The setup\_options section is in place for dealing with construction complexities such as needing to resolve paths and indicating where to store artifacts.
 The remaining sections handle our four main areas of concern and are intended to explicitly be populated with the commands that will be executed to generate a dataset from source files.
-The $step\_acquire\_source\_data$ generally would consist of commands or scripts to automate the downloading of source data from a remote site.
-Both the $step\_feature\_processing$ and $step\_label\_processing$ sections contain sub-sections corresponding to what level of data is being used for the given feature or label.
+The $step\_acquire\_source\_data$ section would generally consist of commands or scripts to automate the downloading of source data from a remote site.
+Both the $step\_feature\_processing$ and $step\_label\_processing$ sections contain sub-sections corresponding to what level of detail is being used for the given feature or label.
 Features that require inspecting individual packets would be considered $packet\_level$, features that are derived from a single NetFlow entry would be considered $flow\_level$, and features requiring access to multiple flows or higher level data would be considered to be at the $network\_level$.
-While the functions contained under the $step\_final\_dataset\_processing$ will likely vary widely for different situations, we expect this section would consist of merging various features created by different tools such that they can be delivered in a single file or files with a consistent format.
-The file is read in by python code and commands are executed from the top down.
+While the functions contained under the $step\_final\_dataset\_processing$ will likely vary widely for different situations, we expect this section would consist of merging various features created by different tools such that they can be delivered in a single file or set of files with a consistent format.
+The YAML configuration file is read in by python code and commands are executed from the top down.
 
 Excluding the $documentation$ and $setup\_options$ sections, the sample implementation is set up with a directory structure that mirrors the remaining sections of the input YAML file.
-The contents of these directories corresponds to scripting and configuration data for the corresponding step.
+The contents of these directories correspond to scripting and configuration data for the respective step.
 Doing this makes it easy for researchers to find the scripts they are interested in examining and updating.
 
 \subsubsection{Basic Usage}\label{subsubsec:basic_usage}
@@ -569,7 +570,7 @@ This directory contains the final output file, $unsw\_nb15\_dataset.csv$, along 
 All of these names can be updated by editing the input YAML configuration file.
 
 \noindent\begin{minipage}{\linewidth}
-\begin{lstlisting}[aboveskip=10pt, label=lst:yamltemplate, caption={A template input file for our sample guidelines implementation.  Each section would be filled in with either information or explicit commands that get run.}, captionpos=b, basicstyle=\footnotesize, backgroundcolor=\color{gray!10!white}, frame=stb]
+\begin{lstlisting}[aboveskip=10pt, label=lst:yamltemplate, caption={A template input file for our sample guidelines implementation.  Each section would be filled in with either information or explicit commands that get run to generate a feature set from network source data.}, captionpos=b, basicstyle=\footnotesize, backgroundcolor=\color{gray!10!white}, frame=stb]
    documentation:
    
    setup_options:
@@ -596,57 +597,11 @@ python ./src/create_dataset.py \
     ./config/unsw-nb15.yaml
 \end{lstlisting}
 
-%Listing \ref{lst:populatedyaml} shows the fully populated YAML file developed for this sample implementation of the guidelines.
-%
-%\begin{lstlisting}[float=*, label=lst:populatedyaml, caption={
-%    The fully populated YAML file used as input for our sample implementation.
-%    Making the scripting calls available for inspection leaves no ambiguity regarding how a final dataset is generated from the original source data.
-%    }, captionpos=b, basicstyle=\tiny, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
-%
-%   documentation:
-%     operating_system: Ubuntu 18.04
-%     python_version: 3.8.10
-%     zeek_version: 4.2.1
-%     argus_version: 3.0.8.2
-%     ra_client_version: 3.0.8 
-%     expected_outputs: 
-%       - unsw_nb15_dataset.csv
-%   
-%   setup_options:
-%     current_directory: ENV_PWD
-%     working_directory: ENV_PWD/unsw_nb15_dataset
-%   
-%   step_acquire_source_data:
-%     - python src/step_acquire_source_data/downloader.py ${setup_options.working_directory}
-%   
-%   step_feature_processing:
-%     packet_level:
-%       - rm -f ${setup_options.working_directory}/17-2-2015_1.argus
-%       - argus -S 60 -m -r ${setup_options.working_directory}/17-2-2015_1.pcap -w ${setup_options.working_directory}/17-2-2015_1.argus
-%       - ./src/argus/ra_wrapper.bash ${setup_options.working_directory} 17-2-2015_1.argus argus_features.csv ./src/step_feature_processing/packet_level/__load__.argus
-%   
-%     flow_level:
-%       - ./src/zeek/zeek-wrapper.bash ${setup_options.current_directory}/src/zeek/packages ${setup_options.working_directory} mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
-%   
-%     network_level:
-%       - ./src/python/python-wrapper.bash ${setup_options.working_directory} ${setup_options.current_directory}/src/step_feature_processing/network_level ${setup_options.working_directory}/features.log
-%   
-%   step_label_processing:
-%     packet_level:
-%   
-%     flow_level:
-%       - python ./src/step_label_processing/flow_level/label.py ${setup_options.working_directory}
-%   
-%     network_level:
-%   
-%   step_final_dataset_processing:
-%     - python ./src/step_post_processing/combine_features.py ${setup_options.working_directory} unsw_nb15_dataset.csv
-%\end{lstlisting}
 
 \subsubsection{Supporting Multiple Tools}\label{subsubsec:tool_support}
 There are many tools used for working with network data and so this sample implementation provides basic support for several of them to serve as an example of this common scenario.
 In this example, we support tools using a combination of simple wrapper scripts for each tool and minimal tool specific infrastructure.
-Each wrapper script reads in a simple configuration file which consists of a listing of feature/label specific procedures that are to be generated by the given tool.
+Each wrapper script reads in a simple configuration file which consists of a listing of feature/label specific procedures that are to be executed by the given tool.
 These configuration files have a naming convention of $\_\_load\_\_.<tool>$.
 A sample of these files can be seen in Figure \ref{fig:sample_load_files}.
 For both Zeek and Python, the entries in these configuration files refer to a Zeek and python script respectively.
@@ -695,12 +650,12 @@ The entries in the configuration files for Argus correspond to a field passed to
     \end{tikzpicture}
 
     \caption{
-        A typical directory for features that will be generated with our implementation's wrapper scripts.
+        A typical directory for feature scripts that will be executed using our implementation's wrapper scripts.
         The large white boxes consist of the contents of the $\_\_load\_\_.<tool>$ configuration files.
         Alongside them are the corresponding scripts that would be found in the directory.
         The wrapper scripts read the $\_\_load\_\_.<tool>$ file and executes the corresponding scripts.
-        Note that for Argus there is only the configuration file as its entries correspond to command line arguments to be used as input to the tool which specify the fields to extract from Argus files.
-        Depicted with blue text are updates made by a downstream researcher to add a new feature generated using the Zeek tool to augment the features of the original dataset.
+        For Argus there is only the configuration file as its entries correspond to command line arguments to be used as input to the Argus client tool.
+        Depicted with blue text is a new feature made by a downstream researcher which will be generated using the Zeek tool.
     }
     \label{fig:sample_load_files}
 \end{figure}
@@ -710,7 +665,7 @@ The entries in the configuration files for Argus correspond to a field passed to
 With the tool support infrastructure in place, it is straightforward to augment the original feature set.
 The creation of any new feature requires two main steps:  updating the appropriate $\_\_load\_\_.<tool>$ file and then creating the corresponding feature script if necessary for the particular tool being used.
 For example, if one wanted to create a new flow level feature using Zeek, one would create their new Zeek script in the $./src/step\_feature\_processing/flow\_level$ directory and update that directory's $\_\_load\_\_.zeek$ file with the script's name as depicted in Figure \ref{fig:sample_load_files} in blue text.
-For Zeek scripts, we have set up a template that can be followed creating features using specific callbacks available within its scripting framework.
+For Zeek scripts, we have set up a template that can be followed for creating features using specific callbacks available within its scripting framework.
 Removing a feature is a simple task of finding the appropriate $\_\_load\_\_.<tool>$ file and either removing the name of the feature from the listing in the file or commenting out the line using an octothorpe.
 Note that these same procedures are applied for labeling procedures, however, they have separate configuration files.
 
@@ -763,7 +718,7 @@ Note that these same procedures are applied for labeling procedures, however, th
 %\end{figure}
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
-In this work we propose a set of ten guidelines that will improve the handoff of NID datasets researchers.
+In this work we propose a set of ten guidelines that will improve the handoff of NID datasets between researchers.
 The focus of these guidelines is to improve ease of access, reproducibility from source data, verification, and the extension of datasets.
 We believe that considering these areas while generating new datasets will benefit both dataset developers and researchers using these datasets for further research.
 %In addition, we provided an example implementation that follows these guidelines to demonstrate its benefits.
@@ -778,6 +733,157 @@ This future work would eliminate the burden of researchers having to acquire spe
 %% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{citations.bib}
+
+\appendix
+\section{Extended Code Listings}
+
+\begin{minipage}{\linewidth}
+\subsection{Sample Zeek Script}
+\begin{lstlisting}[label=lst:zeeksamplescript, caption={
+    A sample Zeek script that creates the single feature for source bytes.
+    This script would be identified in a $\_\_load\_\_.zeek$ file and executed using the Zeek wrapper script provided by our sample implementation.
+    Each script provides the feature name and implements supported Zeek callback functions.
+    While we provide a default set of callbacks, others could  be added to this file if needed.
+    One can see that breaking up the features into their own code unit makes understanding how they are generated straightforward.
+    }, captionpos=b, basicstyle=\small, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
+
+   module Sbytes;
+   
+   ###
+   # Add new feature to the connection record
+   ###
+   
+   export {
+       redef record Features::Info += {
+           sbytes: count &log &optional;
+       };
+   }
+   
+   ###
+   # Specify any namespace variables
+   ###
+   
+   ###
+   # Event handlers for feature
+   ###
+   
+   event new_connection(c: connection) {
+   
+   }
+   
+   event new_packet(c: connection, p: pkt_hdr) {
+   
+   }
+   
+   event connection_state_remove(c: connection) &priority=-10
+   {
+       Features::connection_data[c$uid]$sbytes = c$conn$orig_bytes;
+   }
+\end{lstlisting}
+\end{minipage}
+
+
+\subsection{Fully Populated Sample YAML File}
+Listing \ref{lst:populatedyaml} shows the fully populated YAML file developed for this sample implementation of the guidelines.
+
+\begin{lstlisting}[float=*, label=lst:populatedyaml, caption={
+    The fully populated YAML file used as input for our sample implementation.
+    Making the scripting calls available for inspection leaves no ambiguity regarding how a final dataset is generated from the original source data.
+    }, captionpos=b, basicstyle=\tiny, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
+
+   documentation:
+     operating_system: Ubuntu 18.04
+     python_version: 3.8.10
+     zeek_version: 4.2.1
+     argus_version: 3.0.8.2
+     ra_client_version: 3.0.8 
+     expected_outputs: 
+       - unsw_nb15_dataset.csv
+   
+   setup_options:
+     current_directory: ENV_PWD
+     working_directory: ENV_PWD/unsw_nb15_dataset
+   
+   step_acquire_source_data:
+     - python src/step_acquire_source_data/downloader.py ${setup_options.working_directory}
+   
+   step_feature_processing:
+     packet_level:
+       - rm -f ${setup_options.working_directory}/17-2-2015_1.argus
+       - argus -S 60 -m -r ${setup_options.working_directory}/17-2-2015_1.pcap -w ${setup_options.working_directory}/17-2-2015_1.argus
+       - ./src/argus/ra_wrapper.bash ${setup_options.working_directory} 17-2-2015_1.argus argus_features.csv ./src/step_feature_processing/packet_level/__load__.argus
+   
+     flow_level:
+       - ./src/zeek/zeek-wrapper.bash ${setup_options.current_directory}/src/zeek/packages ${setup_options.working_directory} mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
+   
+     network_level:
+       - ./src/python/python-wrapper.bash ${setup_options.working_directory} ${setup_options.current_directory}/src/step_feature_processing/network_level ${setup_options.working_directory}/features.log
+   
+   step_label_processing:
+     packet_level:
+   
+     flow_level:
+       - python ./src/step_label_processing/flow_level/label.py ${setup_options.working_directory}
+   
+     network_level:
+   
+   step_final_dataset_processing:
+     - python ./src/step_post_processing/combine_features.py ${setup_options.working_directory} unsw_nb15_dataset.csv
+\end{lstlisting}
+
+\section{Sample Script Execution Output}
+We provide the expected output after executing our sample implementation of the guidelines in Listing \ref{lst:sampleoutput}.
+
+\begin{lstlisting}[float=*, label=lst:sampleoutput, caption={
+    The expected output seen in a terminal window after running our sample implementation.
+    Seeing the actual commands that run alleviates any ambiguity regarding how a dataset was created in comparison to simply describing the methodology.
+    Note that we have added some line breaks in the listing to make the output easier to view.
+    }, captionpos=b, basicstyle=\tiny, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
+
+Executing [python src/step_acquire_source_data/downloader.py ./unsw_nb15_dataset]
+Downloading 17-2-2015_1.pcap
+Complete.
+
+Executing [rm -f ./unsw_nb15_dataset/17-2-2015_1.argus]
+Complete.
+
+
+Executing [argus -S 60 -m -r ./unsw_nb15_dataset/17-2-2015_1.pcap -w ./unsw_nb15_dataset/17-2-2015_1.argus]
+Complete.
+
+
+Executing [./src/argus/ra_wrapper.bash ./unsw_nb15_dataset 17-2-2015_1.argus argus_features.csv ./src/step_feature_processing/packet_level/__load__.argus]
+
+Executing [ra -c , -n -u -r ./unsw_nb15_dataset/17-2-2015_1.argus 
+              -s stime proto saddr sport daddr dport sloss dloss smeansz dmeansz tcprtt synack ackdat Sjit Djit Sintpkt Dintpkt   > 
+              ./unsw_nb15_dataset/argus_features.csv]
+Complete.
+
+
+Executing [./src/zeek/zeek-wrapper.bash ./src/zeek/packages ./nsw_nb15_dataset mlfeatures -r ./unsw_nb15_dataset/17-2-2015_1.pcap]
+zeek version 4.2.1
+Complete.
+
+
+Executing [./src/python/python-wrapper.bash ./unsw_nb15_dataset ./src/step_feature_processing/network_level ./unsw_nb15_dataset/features.log]
+
+Executing [python ./src/step_feature_processing/network_level/ct_src_ltm.py ./unsw_nb15_dataset ./unsw_nb15_dataset/features.log]
+Complete.
+
+
+Executing [python ./src/step_label_processing/flow_level/label.py ./unsw_nb15_dataset]
+Complete.
+
+
+Executing [python ./src/step_post_processing/combine_features.py 
+              /home/lew/Documents/school/research/nid_dataset_features_framework/unsw_nb15_dataset 
+              unsw_nb15_dataset.csv]
+Complete.
+
+\end{lstlisting}
+
+
+
 
 \end{document}
 \endinput
