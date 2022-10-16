@@ -8,6 +8,11 @@
 \usepackage{xcolor}
 \usepackage{array}
 \usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+\lstset{escapechar=@,aboveskip=20pt,belowskip=20pt}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -57,12 +62,43 @@ To support these efforts a growing number of datasets have been developed such a
 Despite the great strides made in NIDS dataset development, researchers have identified limitations which make it hard to benchmark methods and expand on dataset features.
 Some of these limitations include difficulty reproducing a dataset \cite{Chou2022}, \cite{ferriyan2021}; lack of a standard feature set \cite{sarhan_arxiv2021}, \cite{Sarhan2021}; and the inability to assess how a methodology generalizes across a broad set of datasets and scenarios \cite{sarhan2020netflow}, \cite{Sarhan2021}, \cite{wolsing2021ipal}.
 
+\begin{figure*}
+\centering
+    \begin{tikzpicture}
+        \tikzstyle{process} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=red!30, text width=2cm];
+        \tikzstyle{processimp} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=blue!30, text width=2cm];
+        \tikzstyle{arrow} = [thick,->,>=stealth];
+ 
+        \filldraw[fill=gray!25!white, draw=gray, thick, dashed] (4.5,1) rectangle (10.5,-1);
+        \filldraw[fill=gray!25!white, draw=gray, thick, dashed] (13.5,1) rectangle (16.5,-1);
+        \node(generate) [process] {Network Traffic Generation};
+        \node(collect) [process, right of=generate, xshift=2cm] {Collect Source Data};
+        \node(features) [processimp, right of=collect, xshift=2cm] {Feature Generation};
+        \node(labels) [processimp, right of=features, xshift=2cm] {Apply Labels};
+        \node(benchmark) [process, right of=labels, xshift=2cm] {Evaluation and Benchmarking};
+        \node(publish) [processimp, right of=benchmark, xshift=2cm] {Publish Dataset};
+
+        \draw[arrow] (generate) -- (collect);
+        \draw[arrow] (collect) -- (features);
+        \draw[arrow] (features) -- (labels);
+        \draw[arrow] (labels) -- (benchmark);
+        \draw[arrow] (benchmark) -- (publish);
+
+    \end{tikzpicture}
+
+    \caption{
+        An overview of the network intrusion detection dataset development process.
+        The areas that the guidelines seek to improve are depicted in blue with a gray background.
+    }
+    \label{fig:dataset_process}
+\end{figure*}
+
 In this work we propose both a set of guidelines along with a sample implementation of the guidelines to help dataset developers overcome these limitations.
 The focus of the work presented here is to improve the handoff of a NIDS dataset to other researchers which has not been well explored in NIDS dataset research.
-Figure XXX shows the dataset development process adapted from \cite{sarhan_arxiv2021} and \cite{e23111532} to show where this work logically fits. 
+Figure \ref{fig:dataset_process} shows the dataset development process adapted from \cite{sarhan_arxiv2021} and \cite{e23111532} to show where this work logically fits. 
 As can be seen highlighted in the figure, we focus on improvements for NIDS dataset feature and label generation which leads to additional improvements for the final delivery of the dataset.
 More specifically, we provide a set of guidelines that can be used such that the end delivery of a NIDS dataset includes the original source network data as well as concrete scripts for generating each feature and label.
-With both of these items in hand, researchers will be able to reliably recreate a dataset, ensure the same features are available across multiple datasets, and perform their own additional feature engineering using various NIDS datasets as depicted in Figure XXX.
+With both of these items in hand, researchers will be able to reliably recreate a dataset, ensure the same features are available across multiple datasets, and perform their own additional feature engineering using various NIDS datasets.
 
 The main contributions of this work are as follows:
 
@@ -70,7 +106,7 @@ The main contributions of this work are as follows:
     \item To the best of the authors' knowledge this is the first work to focus specifically on the handoff of network intrusion detection datasets from one researcher to another
     \item We identify examples seen in current research that hinder the handoff of network intrusion detection datasets between researchers
     \item Guidelines are provided as a framework for overcoming limitations currently present in network intrusion detection dataset handoff between researchers
-    \item A sample implementation of the guidelines is presented along with publicly available source code \footnote{TBD}
+    \item A sample implementation of the guidelines is presented along with publicly available source code\footnote{https://github.com/WickedElm/nid\_dataset\_features\_framework}
 \end{itemize}
 
 The remainder of this work is outlined as follows.
@@ -106,7 +142,7 @@ The content requirements outlined includes providing full packet capture (PCAP) 
 The process requirements pertain to information that should be provided in order to make generating the dataset reproducible.
 While we agree with much of this work, we look to extend these concepts by requiring actual scripts to generate features and perform labeling along with full PCAP files.
 This leaves no ambiguity in descriptions for how to regenerate a dataset.
-As an example Zeek \footnote{https://zeek.org/} was used to extract the features for HIKARI-2021, however, no Zeek scripts were provided such that all features can be reproduced properly by researchers downstream.
+As an example Zeek footnote{https://zeek.org/} was used to extract the features for HIKARI-2021, however, no Zeek scripts were provided such that all features can be reproduced properly by researchers downstream.
 
 While not the main focus, both \cite{e23111532} and \cite{layeghy2021} discuss and tackle the need to use a common feature set for comparison of their methods as opposed to using proprietary features delivered with most NID datasets available today.
 Both provide informative descriptions regarding the features used in their work.
@@ -172,7 +208,7 @@ While always collecting full packet captures is ideal in terms of retaining all 
 
 When turning to a flow format, challenges are imposed on NID dataset developers as some facilities may be using the NetFlow v5 standard while others may have upgraded to NetFlow v9 or IPFIX.
 Any limitations or differences between the standards will trickle down into the final delivered datasets resulting in datasets with varied features such that researchers cannot rely on a particular feature always being present in a dataset for their work.
-While the recent introduction of the Open Cybersecurity Schema Framework (OCSF) \footnote{https://github.com/ocsf/} looks to improve this situation, it is unclear when wide support will be available for this  standard to be used in practice.
+While the recent introduction of the Open Cybersecurity Schema Framework (OCSF)\footnote{https://github.com/ocsf/} looks to improve this situation, it is unclear when wide support will be available for this  standard to be used in practice.
 
 \section{Recognizing the Intrinsic Value in Network Intrusion Detection Datasets}\label{sec:intrinsic_value}
 We believe it is worthwhile to provide a brief discussion regarding the intrinsic value provided by NID datasets as related to their development and subsequent distribution.
@@ -198,6 +234,7 @@ The ten guidelines are outlined and described in Table \ref{tbl:guidelines}.
 Guidelines one through four pertain to providing downstream researchers with the resources necessary to actively reproduce and enhance the provided dataset.
 Guidelines five through nine outline steps that can be taken to ensure that all of the dataset features and labels can be regenerated from source data and that the steps for this generation of features can be verified and understood by downstream researchers.
 Finally, guideline ten is specifically included to emphasize that the delivered datasets can be considered active projects and adjust over time for any initial errors found after initial delivery to researchers.
+Collectively, these guidelines are proposed to help avoid situations such as with the KDD Cup '99 \cite{kdd99}, \cite{tavallaee2009detailed} and CICIDS2017 datasets \cite{sharafaldin2018toward}, where researchers have found issues with the original datasets and resulting in a multiple variants of the dataset being available with specific corrections \cite{tavallaee2009detailed}, \cite{lanvin:hal-03775466}, \cite{engelen2021}.
 
 \begingroup
 \setlength{\tabcolsep}{10pt} % Default value: 6pt
@@ -285,26 +322,60 @@ Finally, guideline ten is specifically included to emphasize that the delivered 
 \endgroup
 
 \subsection{Sample Implementation}\label{subsec:framework_implementation}
-We provide a sample implementation \footnote{github reference} of the guidelines outlined in Section \ref{subsec:framework_overview} which can be used and adapted by NID dataset researchers.
-While this specific implementation makes use of Zeek\footnote{https://zeek.org} and Argus \footnote{https://openargus.org/} in combination with Python \footnote{https://www.python.org/}, we note that any toolchain which sufficiently implements the guidelines would achieve the same goals of providing ease of access, reproducibility from source data, verification, and extension.
+The main details of the environment used to develop and test this sample implementation can be found in Table \ref{tbl:software_environment}.
+It is assumed that any usage of it would be in a similar environment.
+
+\begingroup
+\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5} % Default value: 1
+\begin{table}
+\centering
+\caption{
+Table of the software environment that the sample implementation was developed and tested on.
+To replicate its execution one would need to have a similar environment.
+}
+\label{tbl:software_environment}
+%\resizebox{\columnwidth}{!}{%
+%\begin{tabular}{|l|l|l|l|}
+\begin{tabular}{ll}
+    \hline
+    \textbf{Software} &  \textbf{Version} \\
+    \hline
+    Ubuntu & 18.04 \\
+    Bash & 4.4.20 \\
+    Python & 3.8.10 \\
+    Zeek & 4.2.1 \\
+    Argus & 3.0.8.2 \\
+    \hline
+\end{tabular}
+%}
+\end{table}
+\endgroup
+
+\subsubsection{Overview}\label{subsubsec:sample_overview}
+We provide a sample implementation of the guidelines outlined in Section \ref{subsec:framework_overview} which can be used and adapted by NID dataset researchers.
+While this specific implementation makes use of Zeek\footnote{https://zeek.org} and Argus\footnote{https://openargus.org/} in combination with Python\footnote{https://www.python.org/}, we note that any toolchain which sufficiently implements the guidelines would achieve the same goals of providing ease of access, reproducibility from source data, verification, and extension.
 We used a small portion of the UNSW-NB15 dataset \cite{unswnb15} as the source data for this implementation as this dataset provides open access to all of its source data.
 Note that some choices for this implementation were made to specifically exercise usage of the guidelines and that the resulting dataset is for example purposes.
 Therefore, our example dataset should not be used for researching network intrusion detection techniques.
 
-We based our sample implementation of the guidelines on characterizing the creation of delivered dataset from source data into four main areas:  acquiring source data, feature processing, label processing, and final dataset processing.
-Using YAML \footnote{https://yaml.org/} for the format of our input files for the implementation we see these main areas depicted in Listing \ref{lst:yamltemplate}.
+We based our sample implementation of the guidelines on characterizing the creation of a deliverable dataset from source data into four main areas:  acquiring source data, feature processing, label processing, and final dataset processing.
+Using YAML\footnote{https://yaml.org/} for the format of our input files for the implementation we see these main areas depicted in Listing \ref{lst:yamltemplate}.
 In the documentation section of this file, one can indicate all of the versions of tools used.
 The setup\_options section is in place for dealing with construction complexities such as needing to resolve paths and indicating where to store artifacts.
 The remaining sections handle our four main areas of concern and are intended to explicitly be populated with the commands that will be executed to generate a dataset from source files.
-Both the feature processing and label processing sections contain sub-sections corresponding to what level of data is being used for the given feature or label.
-Features that require inspecting individual packets would be considered packet\_level, features that are derived from a single NetFlow entry would be considered flow\_level, and features requiring access to multiple flows or higher level data would be considered to be at the network\_level.
+The $step\_acquire\_source\_data$ generally would consist of commands or scripts to automate the downloading of source data from a remote site.
+Both the $step\_feature\_processing$ and $step\_label\_processing$ sections contain sub-sections corresponding to what level of data is being used for the given feature or label.
+Features that require inspecting individual packets would be considered $packet\_level$, features that are derived from a single NetFlow entry would be considered $flow\_level$, and features requiring access to multiple flows or higher level data would be considered to be at the $network\_level$.
+While the functions contained under the $step\_final\_dataset\_processing$ will likely vary widely for different situations, we expect this section would consist of merging various features created by different tools such that they can be delivered in a single file or files with a consistent format.
 The file is read in by python code and commands are executed from the top down.
 
-Excluding the documentation and setup\_options sections the sample implementation is set up with a directory structure that mirrors the remaining sections of the input YAML file.
+Excluding the $documentation$ and $setup\_options$ sections, the sample implementation is set up with a directory structure that mirrors the remaining sections of the input YAML file.
 The contents of these directories corresponds to scripting and configuration data for the corresponding step.
 Doing this makes it easy for researchers to find the relevant scripts they are interested in examining and updating.
 
-\begin{lstlisting}[label=lst:yamltemplate, caption={A template input file for our sample guidelines implementation.  Each section would be filled in with either information or explicit commands that get run.}, captionpos=b, basicstyle=\footnotesize, backgroundcolor=\color{gray!10!white}, frame=stb]
+\noindent\begin{minipage}{\linewidth}
+\begin{lstlisting}[aboveskip=10pt, label=lst:yamltemplate, caption={A template input file for our sample guidelines implementation.  Each section would be filled in with either information or explicit commands that get run.}, captionpos=b, basicstyle=\footnotesize, backgroundcolor=\color{gray!10!white}, frame=stb]
    documentation:
    
    setup_options:
@@ -323,8 +394,192 @@ Doing this makes it easy for researchers to find the relevant scripts they are i
    
    step_final_dataset_processing:
 \end{lstlisting}
+\end{minipage}
+
+\subsubsection{Basic Usage}\label{subsubsec:basic_usage}
+After downloading the sample source code, one can change to its top level directory and execute the command in Listing \ref{lst:maincmd} to create the sample dataset.
+This command calls our main script, $create\_dataset.py$; passing in the path to the YAML file to be processed.
+The $create\_dataset.py$ script reads in the file, performs variable replacements, and then simply executes all of the commands contained  in the file.
+After running the script, one will see a new directory, $unsw\_nb15\_dataset$, has been created.
+This directory contains the final output file, $unsw\_nb15\_dataset.csv$, along with various intermediate state files.
+All of these names can be updated by editing the input YAML configuration file.
+
+\begin{lstlisting}[label=lst:maincmd, caption={The command to run to execute the sample implementation of the guidelines.}, captionpos=b, basicstyle=\footnotesize, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
+python ./src/create_dataset.py \
+    ./config/unsw-nb15.yaml
+\end{lstlisting}
+
+Listing \ref{lst:populatedyaml} shows the fully populated YAML file developed for this sample implementation of the guidelines.
+
+\begin{lstlisting}[float=*, label=lst:populatedyaml, caption={
+    The fully populated YAML file used as input for our sample implementation.
+    Making the scripting calls available for inspection leaves no ambiguity regarding how a final dataset is generated from the original source data.
+    }, captionpos=b, basicstyle=\tiny, backgroundcolor=\color{gray!10!white}, frame=stb, breaklines=True]
+
+   documentation:
+     python_version: 3.8.10
+     zeek_version: 4.2.1
+     argus_version: 3.0.8.2
+     ra_client_version: 3.0.8 
+     expected_outputs: 
+       - unsw_nb15_dataset.csv
+   
+   setup_options:
+     current_directory: ENV_PWD
+     working_directory: ENV_PWD/unsw_nb15_dataset
+   
+   step_acquire_source_data:
+     - python src/step_acquire_source_data/downloader.py ${setup_options.working_directory}
+   
+   step_feature_processing:
+     packet_level:
+       - rm -f ${setup_options.working_directory}/17-2-2015_1.argus
+       - argus -S 60 -m -r ${setup_options.working_directory}/17-2-2015_1.pcap -w ${setup_options.working_directory}/17-2-2015_1.argus
+       - ./src/argus/ra_wrapper.bash ${setup_options.working_directory} 17-2-2015_1.argus argus_features.csv ./src/step_feature_processing/packet_level/__load__.argus
+   
+     flow_level:
+       - ./src/zeek/zeek-wrapper.bash ${setup_options.current_directory}/src/zeek/packages ${setup_options.working_directory} mlfeatures -r ${setup_options.working_directory}/17-2-2015_1.pcap
+   
+     network_level:
+       - ./src/python/python-wrapper.bash ${setup_options.working_directory} ${setup_options.current_directory}/src/step_feature_processing/network_level ${setup_options.working_directory}/features.log
+   
+   step_label_processing:
+     packet_level:
+   
+     flow_level:
+       - python ./src/step_label_processing/flow_level/label.py ${setup_options.working_directory}
+   
+     network_level:
+   
+   step_final_dataset_processing:
+     - python ./src/step_post_processing/combine_features.py ${setup_options.working_directory} unsw_nb15_dataset.csv
+\end{lstlisting}
+
+\subsubsection{Supporting Multiple Tools}\label{subsubsec:tool_support}
+There are many tools used for working with network data and so this sample implementation provides basic support for several of them to serve as an example of this common scenario.
+In this example, we support tools using a combination of simple wrapper scripts for each tool and minimal tool specific infrastructure.
+Each wrapper script reads in a simple configuration file which consists of a listing of feature/label specific procedures that are to be generated by the given tool.
+These configuration files have a naming convention of $\_\_load\_\_.<tool>$.
+A sample of these files can be seen in Figure \ref{fig:sample_load_files}.
+For both Zeek and Python, the entries in these configuration files refer to a Zeek and python script respectively.
+The entries in the configuration files for Argus correspond to a field passed to the Argus client as part of the field identifier option.
+
+\begin{figure}
+\centering
+    \begin{tikzpicture}
+        \tikzstyle{directory} = [rectangle, draw=folderborder, top color=folderbg!50, bottom color=folderbg, minimum width=8.4cm, minimum height=4.0cm];
+        \tikzstyle{directorytop} = [rectangle, draw=folderborder, top color=folderbg!50, bottom color=folderbg, minimum width=1.5cm, minimum height=0.5cm];
+
+        \node(zeekdir) [directory] {};
+        \node(zeekdirtop) [directorytop, above of=zeekdir, xshift=-3.45cm, yshift=1.25cm] {};
+        \filldraw[fill=white, draw=black] (-4, -1.5) rectangle (-2.5,1.5);
+        \node[] at (-3.3, 1) {\small @load ./a};
+        \node[] at (-3.3, 0.5) {\small @load ./b};
+        \node[] at (-3.3, 0) {\small @load ./c};
+
+        \node[fill=white, draw=black] at (-1.9, 1) {\small a.zeek};
+        \node[fill=white, draw=black] at (-1.9, 0.4) {\small b.zeek};
+        \node[fill=white, draw=black] at (-1.9, -0.2) {\small c.zeek};
+
+        \filldraw[fill=white, draw=black] (-0.8, -1.5) rectangle (1,1.5);
+        \node[] at (-0.6, 1) {\small a};
+        \node[] at (-0.6, 0.5) {\small b};
+        \node[] at (-0.6, 0) {\small c};
+
+        \filldraw[fill=white, draw=black] (1.7, -1.5) rectangle (3, 1.5);
+        \node[] at (1.9, 1) {\small a};
+        \node[] at (1.9, 0.5) {\small b};
+        \node[] at (1.9, 0) {\small c};
+
+        \node[fill=white, draw=black] at (3.5, 1) {\small a.py};
+        \node[fill=white, draw=black] at (3.5, 0.4) {\small b.py};
+        \node[fill=white, draw=black] at (3.5, -0.2) {\small c.py};
+
+        \draw[draw=gray, thick, dotted] (-1.1,-2) -- (-1.1,2);
+        \draw[draw=gray, thick, dotted] (1.4,-2) -- (1.4,2);
+
+        \node[text=gray] at (-2.7, 1.75) {Zeek};
+        \node[text=gray] at (0.2, 1.75) {Argus};
+        \node[text=gray] at (2.8, 1.75) {Python};
+
+    \end{tikzpicture}
+
+    \caption{
+        A typical directory for features that will be generated using various software in conjunction with our implementation's wrapper scripts.
+        The large white boxes consist of the contents of the $\_\_load\_\_.<tool>$ configuration files.
+        Alongside them are the corresponding scripts that would be found in the directory.
+        The wrapper scripts read the $\_\_load\_\_.<tool>$ file and executes the corresponding scripts.
+        Note that for Argus there is only the configuration file as its entries correspond to command line arguments to be used as input to the tool which specify the fields to extract from Argus files.
+    }
+    \label{fig:sample_load_files}
+\end{figure}
+
+\subsubsection{Adding or Removing Features}\label{subsubsec:adding_removing_features}
+With the tool support infrastructure in place, this sample makes it straightforward to identify which features are to be created and augment those features easily.
+In general, the creation of any feature requires two main steps:  updating the appropriate $\_\_load\_\_.<tool>$ file and then creating the corresponding feature script if necessary for the particular tool being used.
+For example, if one wanted to create a new flow level feature using Zeek, one would create their new Zeek script in the $./src/step\_feature\_processing/flow\_level$ directory and update that directory's $\_\_load\_\_.zeek$ file with the script's name as depicted in Figure \ref{fig:new_feature_process}.
+For Zeek scripts, we have set up a template that can be followed creating features using specific callbacks available within its scripting framework.
+Removing a feature is a simple task of finding the appropriate $\_\_load\_\_.<tool>$ file and either removing the name of the feature from the listing in the file or commenting out the line using an octothorpe.
+Note that these same procedures are applied for labeling procedures, however, they have separate configuration files.
+
+
+\begin{figure}
+\centering
+    \begin{tikzpicture}
+        %\tikzstyle{directory} = [rectangle, minimum width=2.5cm, minimum height=3cm,text centered, draw=black, fill=red!30, text width=2cm];
+        \tikzstyle{directory} = [rectangle, draw=folderborder, top color=folderbg!50, bottom color=folderbg, minimum width=4cm, minimum height=3.5cm];
+        \tikzstyle{directorytop} = [rectangle, draw=folderborder, top color=folderbg!50, bottom color=folderbg, minimum width=1cm, minimum height=0.5cm];
+        \tikzstyle{arrow} = [thick,->,>=stealth];
+
+        %\filldraw[draw=folderborder, top color=folderbg!50, bottom color=folderbg] (0,4) rectangle (1,3.5);
+        %\filldraw[draw=folderborder, top color=folderbg!50, bottom color=folderbg] (0,0) rectangle (3,3.5);
+
+        \node(beforedir) [directory] {};
+        \node(beforedirtop) [directorytop, above of=beforedir, xshift=-1.5cm, yshift=1.0cm] {};
+        \filldraw[fill=white, draw=black] (-1.9, -1.5) rectangle (0.0,1.5);
+        \node[] at (-1, 1) {@load ./a};
+        \node[] at (-1, 0.5) {@load ./b};
+        \node[] at (-1, 0) {@load ./c};
+
+        \node[fill=white, draw=black] at (0.75, 1) {a.zeek};
+        \node[fill=white, draw=black] at (0.75, 0.4) {b.zeek};
+        \node[fill=white, draw=black] at (0.75, -0.2) {c.zeek};
+
+        \node(afterdir) [directory, right of=beforedir, xshift=4cm] {};
+        \node(afterdirtop) [directorytop, above of=afterdir, xshift=-1.5cm, yshift=1.0cm] {};
+        \filldraw[fill=white, draw=black] (3.1, -1.5) rectangle (5,1.5);
+        \node[] at (4.0, 1) {@load ./a};
+        \node[] at (4.0, 0.5) {@load ./b};
+        \node[] at (4.0, 0) {@load ./c};
+        \node[text=blue] at (4.0, -0.5) {@load ./d};
+
+        \node[fill=white, draw=black] at (5.75, 1) {a.zeek};
+        \node[fill=white, draw=black] at (5.75, 0.4) {b.zeek};
+        \node[fill=white, draw=black] at (5.75, -0.2) {c.zeek};
+        \node[fill=white, draw=black, text=blue] at (5.75, -0.8) {d.zeek};
+
+        \draw [->,blue,thick,>=stealth] (beforedirtop.north) to [out=30,in=150] (afterdirtop.north);
+
+    \end{tikzpicture}
+
+    \caption{
+        Example of adding a new feature using our sample implementation of the guidelines.
+        The original directory on the left is augmented in two ways with changes shown in blue text.
+        First, a new Zeek script based on our template is added to the directory called $d.zeek$.
+        Next, the $\_\_load\_\_.zeek$ file is augmented to include the new feature.
+    }
+    \label{fig:new_feature_process}
+\end{figure}
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
+In this work we propose a set of ten guidelines that will improve the handoff of datasets between network intrusion detection dataset researchers and the consumers of the datasets.
+The focus of these guidelines is to improve ease of access, reproducibility from source data, verification, and extension of datasets.
+We believe that considering them while generating new datasets will benefit both dataset developers and researchers looking to extend or augment these datasets to further research.
+In addition, we provided an example implementation that follows these guidelines to demonstrate its benefits.
+
+While these guidelines are a step forward in progress in this area of research, it does not eliminate many of the complexities faced by researchers who want to extend datasets.
+In future work we aim to remove many of these complexities by using server based methods to facilitate these guidelines.
+This future work would eliminate the burden of researchers having to acquire specific versions of tools and would have potential efficiency gains for sharing new features easily with other researchers in a central location.
 
 \bibliographystyle{IEEEtran}
 \bibliography{citations.bib}
