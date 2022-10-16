@@ -1,0 +1,20 @@
+documentation:
+  expected_outputs: 
+
+setup_options:
+  current_directory: ENV_PWD
+  working_directory: ENV_PWD/template_dataset
+
+step_acquire_source_data:
+
+step_feature_processing:
+  packet_level:
+  flow_level:
+  network_level:
+
+step_label_processing:
+  packet_level:
+  flow_level:
+  network_level:
+
+step_final_dataset_processing:
