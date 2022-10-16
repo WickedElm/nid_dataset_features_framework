@@ -9,3 +9,17 @@
 *.synctex.gz
 features.txt
 unsw_nb15_dataset
+ACM-Reference-Format.bst
+Makefile
+README
+acmart.bib
+acmart.dtx
+acmart.ins
+acmauthoryear.bbx
+acmauthoryear.cbx
+acmdatamodel.dbx
+acmnumeric.bbx
+acmnumeric.cbx
+comment.cut
+nid_dataset_features_guidelines.out
+
