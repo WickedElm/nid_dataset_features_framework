@@ -28,6 +28,14 @@ python ./src/create_dataset.py ./config/unsw-nb15.yaml
 
 This sample is for example purposes only to support the paper and set a path towards wider support of the paper's outlined guidelines.
 
+## YAML Format Notes
+Standard YAML format is supported using the Python PyYAML library.
+This library doesn't support variable substitutions so we implemented this in our script, however, it has only been tested using the config/unsw-nb15.yaml file.
+While simple substitutions should work, nested substitutions likely will not.
+We employ the use of a single keyword "ENV_PWD" which, when present in the setup_options section, will get resolved to the user's present working directory.
+Note that this replacement will not work in other sections of the file.
+
+
 ## Expected Outputs
 After executing the sample with default settings the output will be contained in a ./unsw_nb15_dataset directory.
 The artifacts include the downloaded UNSW-NB15 PCAP file, argus output, Zeek output.
