@@ -32,8 +32,11 @@ This sample is for example purposes only to support the paper and set a path tow
 Standard YAML format is supported using the Python PyYAML library.
 This library doesn't support variable substitutions so we implemented this in our script, however, it has only been tested using the config/unsw-nb15.yaml file.
 While simple substitutions should work, nested substitutions likely will not.
-We employ the use of a single keyword "ENV_PWD" which, when present in the setup_options section, will get resolved to the user's present working directory.
+We employ the use of the keyword "ENV_PWD", which, when present in the setup_options section, will get resolved to the user's present working directory.
 Note that this replacement will not work in other sections of the file.
+
+In addition, it should be noted that the section names in the YAML files need to match our original template while the commands that get excecuted within the step can be anything you want executed.
+In other words, if one were to change step_feature_processing to process_features, our scripting would not recognize that category and simply not execute anything from that section of the file.
 
 
 ## Expected Outputs
