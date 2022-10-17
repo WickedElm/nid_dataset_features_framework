@@ -3,6 +3,7 @@ Full source code repository to accompany the paper "Guidelines to Improve the De
 If you plan on experimenting with the sample implementation of the guidelines from the paper please first ensure you meet the requirements outlined in ./config/unsw-nb15.yaml:
 
 ```
+operating_system:  Ubuntu 18.04
 python_version:    3.8.10
 zeek_version:      4.2.1
 argus_version:     3.0.8.2
